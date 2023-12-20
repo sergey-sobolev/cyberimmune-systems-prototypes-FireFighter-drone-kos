@@ -5,20 +5,19 @@
 - [Protocol](#Protocol)
 - [Logic](#logic-from-plantuml)
 - [Logic with pseudocode](#logic-with-pseudocode)
-- [Features](#features)
 - [Dev Plan log](#dev-plan-log)
 
 ## Terms and progress:
-- [x] FPS (Flight Plan Server) - Источник полётного задания
-- [x] Communication - Связь
-- [x] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
-- [x] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
-- [x] CCU (Central control unit) - Центральная система управления
-- [x] Aggregation - Комплексирование
-- [x] Navigation system - Навигация GNSS + ИНС
-- [x] Movement control - Управление перемещением
-- [x] Situation control - Контроль обстановки
-- [x] Extinguishing - Процедура тушения
+- [ ] FPS (Flight Plan Server) - Источник полётного задания
+- [ ] Communication - Связь
+- [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+- [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
+- [ ] CCU (Central control unit) - Центральная система управления
+- [ ] Aggregation - Комплексирование
+- [ ] Navigation system - Навигация GNSS + ИНС
+- [ ] Movement control - Управление перемещением
+- [ ] Situation control - Контроль обстановки
+- [ ] Extinguishing - Процедура тушения
 
 ## Interface
  - FPS is listening on 8081 port, so accessible via http://localhost:8081
@@ -39,26 +38,20 @@
 ### Interconnection and allowed communications
 ```plantuml:md-interconnection
 @startuml
-(fps) --> (communication) : 1. start at val\n(via http)
-communication --> (fmac) : 2. start at val
-communication --> (fps) : 31. started at val \n(not_authentic_task val)\n(via http)
-fmac --> (eaic) : 3. execute at val
-fmac --> (communication) : not_authentic_task val
-fmac --> (ccu) : 4. execute at val
-eaic -> (aggregation) : 18. get_coordinates
+(fps) -> (communication) : 1. start at val\n(not_authentic_task val)\n(via http)
+communication -> (fmac) : 2. start at val\n(true=in_progress\n3. false=not_authentic_task)
+communication -> (fps) : 31. started at val\n(via http)
+fmac --> (eaic) : 4. execute at val\n(true/false)
+fmac --> (ccu) : 5. execute at val\n(true/false)
+eaic --> (aggregation) : 18. get_coordinates\n(19. coordinates with val)
 eaic --> (extinguishing) : 21. start_action
-ccu -> (aggregation) : 9. get_coordinates
-ccu --> (movement) : 11. move to val
+ccu --> (aggregation) : 9. get_coordinates\n(10. coordinates with val)
+ccu --> (movement) : 11. move to val\n12. calculate movement\n13. done at val
 ccu --> (extinguishing) : 14. start_action
-ccu --> (extinguishing) : 27. stop_action
-ccu --> (situation) : 22. is_action_running
-ccu --> (communication) : 30. started at val
-aggregation --> (navigation) : 5. 16. get_coordinates
-aggregation --> (ccu) : 10. coordinates with val
-aggregation --> (eaic) : 19. coordinates with val
-navigation --> (aggregation) : 6. 17. coordinates with val
-movement --> (ccu) : 13. done at val
-situation --> (ccu) : 23. action_is_running
+ccu -> (extinguishing) : 27. stop_action
+ccu -> (situation) : 22. is_action_running\n(23. true/false)
+ccu -> (communication) : 30. started at val
+aggregation --> (navigation) : 6. 16. get_coordinates\n8. check coordinates validity\n7. 17. coordinates with val
 extinguishing --> (eaic) : 15. confirm_action
 extinguishing --> (eaic) : 28. stop_action
 @enduml
@@ -132,7 +125,7 @@ communication -> fps
 ```
 
 ## Logic with pseudocode:
-### [x] FPS (Flight Plan Server) - Источник полётного задания
+### [ ] FPS (Flight Plan Server) - Источник полётного задания
 ```
 fps -> communication
 pub  1. start extinguishing at A
@@ -149,7 +142,7 @@ listen // for commands and an interchange data with the communication
         send client not_authentic_task at val
 ```
 
-### [x] Communication - Связь
+### [ ] Communication - Связь
 ```
 fps -> communication
 - sub  1. start extinguishing at A
@@ -171,7 +164,7 @@ sub communication
         send fps not_authentic_task at var
 ```
 
-### [x] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+### [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
 ```
 communication -> fmac
 - sub  2. start extinguishing at A
@@ -189,7 +182,7 @@ sub fmac
             pub eaic execute at var
             pub ccu execute at var
 ```
-### [x] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
+### [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 ```
 fmac -> eaic
 - sub  4. execute extinguishing at A
@@ -224,7 +217,7 @@ sub eaic
         task="" // 29
 ```
 
-### [x] CCU (Central control unit) - Центральная система управления
+### [ ] CCU (Central control unit) - Центральная система управления
 ```
 fmac -> ccu
 - sub  5. execute extinguishing at A
@@ -263,7 +256,7 @@ loop:
 
 ```
 
-### [x] Aggregation - Комплексирование
+### [ ] Aggregation - Комплексирование
 ```
 aggregation -> navigation
 - pub  6. get coordinates
@@ -285,18 +278,16 @@ aggregation -> eaic
 - pub 19. coordinates and time
 ```
 ```
-sub aggregation
-    coordinates,var_gps,var_ins
-        check_coordinates_validity(var_gps, var_ins):
-                var_gps == var_ins
-                save coordinates
-    get_coordinates
-            pub from coordinates,var_ins
+export aggregation get_coordinates
+        return coordinates{var_gps, var_ins}
 loop:
-    pub navigation get_coordinates
+    request navigation get_coordinates
+    response (var_gps, var_ins)
+        check_coordinates_validity(var_gps, var_ins)
+        save coordinates{var_gps, var_ins}
 ```
 
-### [x] Navigation system - Навигация GNSS + ИНС
+### [ ] Navigation system - Навигация GNSS + ИНС
 ```
 aggregation -> navigation
 - sub 6. get_coordinates
@@ -308,12 +299,11 @@ navigation -> aggregation
 - pub 17. return coordinates
 ```
 ```
-sub navigation
-    get_coordinates
-        pub from coordinates,var_gps,var_ins
+export navigation get_coordinates:
+    return coordinates{var_gps, var_ins}
 ```
 
-### [x] Movement control - Управление перемещением
+### [ ] Movement control - Управление перемещением
 ```
 ccu -> movement
 - sub 11. move to A
@@ -323,13 +313,12 @@ movement -> ccu
 - pub 13. move to A done
 ```
 ```
-sub movement
-  move at val
-    to_position(val)
-    pub ccu done
+export movement move_to(val):
+    calculate_movement(val)
+    return true
 ```
 
-### [x] Situation control - Контроль обстановки
+### [ ] Situation control - Контроль обстановки
 ```
 ccu -> situation
  24. check if algo is running
@@ -344,7 +333,7 @@ sub situation
   if is_action_running
       pub from state.action_in_progress
 ```
-### [x] Extinguishing - Процедура тушения
+### [ ] Extinguishing - Процедура тушения
 ```
 ccu -> extinguishing
 - sub 14. start extinguish/fire
@@ -368,73 +357,8 @@ sub extinguishing
     stop_action
         pub eaic stop_action
 ```
-## Features
-- Dockerfile
-  - Contains everything what might be required for developer to build and test.
-    - Runs unit tests on build stage to make sure that our code is in a good shape.
-    - Builds doxygen generated docs in md format
-  - It has one huge layer which builds once and small layers.
-  - One image for every component for simplicity
-- Mosquitto
-  - Uses configuration file cfg/mosquitto.conf
-  - allow anonymous access for simplicity
-  - starts as separate container
-- Docker compose
-  - Uses the same image for everythig, for simplicity
-  - FPS depends from every other container to make sure that web UI is workable
-- Makefiles
-  - Two Makefiles
-  - Might be used to build project on a host or inside a container
-- Doxygen + doxybook2
-  - Generates .md documentation by `make docs` in docs folder
-  - configuration for Doxygen is cfg/Doxyfile
-  - configuration for doxybook2 is cfg/doxybook.json
-- Render PlantUML
-  - Auto generation of svg from plantuml in markdown or from plantuml files
-  - Configuration .github/workflows/generate-plantuml-action.yaml
 
 ## Dev Plan log:
-Day 1 Dec 5
- - [x] figureout what terms to use (translation of them)
- - [x] figureout how to make a build system (Cmake/Make)
- - [x] 11 components and 1 broker pack to container
- - [x] Docker-compose setup
-
-Day 2 Dec 6
- - [x] add sub pub mosquitto code for any components and monitor
-   - [x] mosquitto configuration has been added
- - [x] define who should talk with who and how
-
-Day 3 Dec 7
- - [x] add logic for local/docker build (port)
- - [x] fix monitor
-
-Day 4 Dec 8
-- [x] some docs
-- [x] simplify broker
-- [x] open dev log doc
-- [x] check tests - unit tests implemented
-
-Day 5 Dec 9
-- [x] add unit tests for monitor
-- [x] add logic for other compoments
-- [x] check eaic logic for stop fire/extinguishing
-
-Day 6 Dec 10
-- [x] doxygen -> doxybook2 -> code to *.md generation
-
-Day 7 Dec 11
-- [x] Interconnection and allowed communications docs/schema 
-- [x] monitor allow rules check
-
-Day 8 Dec 12
-- [x] interface via tcp for fps and communication
-
-Day 9 Dec 13
-- [x] e2e tests
-- [x] docs
-
-### KOS version
 Day 1 Dec 14
 - Reading KOS docs and experimenting
 
