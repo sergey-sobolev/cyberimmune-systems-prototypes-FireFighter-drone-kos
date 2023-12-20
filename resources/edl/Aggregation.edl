@@ -1,1 +1,6 @@
 entity ffd.Aggregation
+
+components
+{
+    AggregationCoordinates: ffd.AggregationCoordinates
+}

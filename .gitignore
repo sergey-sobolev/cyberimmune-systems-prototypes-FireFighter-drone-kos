@@ -36,3 +36,6 @@ build
 
 # clang-check
 *.plist
+
+# manual backups
+*.bkp
