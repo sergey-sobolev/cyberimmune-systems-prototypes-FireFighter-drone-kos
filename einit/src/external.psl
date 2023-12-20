@@ -1,23 +1,20 @@
 /* Including EDL files. */
 use EDL ffd.Aggregation
 use EDL ffd.Navigation
+use EDL ffd.Situation
 use EDL ffd.KlogEntity
 use EDL ffd.KlogStorageEntity
 
 request src=ffd.KlogEntity dst=ffd.KlogStorageEntity interface=kl.KlogStorage method=write { grant () }
 response src=ffd.KlogStorageEntity dst=ffd.KlogEntity interface=kl.KlogStorage method=write { grant () }
 
-request src = ffd.Aggregation, dst = kl.core.Core
-{
-    grant()
-}
-
+// Core
 response src = kl.core.Core, dst = ffd.Aggregation
 {
     grant()
 }
 
-request src = ffd.Navigation, dst = kl.core.Core
+response src = kl.core.Core, dst = ffd.Situation
 {
     grant()
 }
@@ -27,7 +24,25 @@ response src = kl.core.Core, dst = ffd.Navigation
     grant()
 }
 
+// Aggregation
+request src = ffd.Aggregation, dst = kl.core.Core
+{
+    grant()
+}
+
 request src = ffd.Aggregation, dst = ffd.Navigation
+{
+    grant()
+}
+
+// Situation
+request src = ffd.Situation, dst = kl.core.Core
+{
+    grant()
+}
+
+// Navigation
+request src = ffd.Navigation, dst = kl.core.Core
 {
     grant()
 }

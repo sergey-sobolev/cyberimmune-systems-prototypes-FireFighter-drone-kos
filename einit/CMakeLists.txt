@@ -39,6 +39,7 @@ endif ()
 #endif()
     set (ENTITIES Aggregation
                   Navigation
+                  Situation
                   KlogStorageEntity)
     set (CONNECTIONS_CFG_FILE "src/init.yaml.in")
 

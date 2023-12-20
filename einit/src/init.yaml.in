@@ -9,6 +9,9 @@ entities:
 - name: ffd.Navigation
 @INIT_server_ENTITY_CONNECTIONS@
 
+- name: ffd.Situation
+@INIT_server_ENTITY_CONNECTIONS@
+
 - name: ffd.KlogEntity
   path: @INIT_KlogEntity_PATH@
   connections:
