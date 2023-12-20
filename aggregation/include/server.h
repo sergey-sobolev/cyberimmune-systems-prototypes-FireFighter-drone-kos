@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Aggregation.edl.h"
-
+#include "kos_connector.h"
 #include "aggregation_coordinates.h"
 #include <coresrv/sl/sl_api.h>
 
@@ -10,7 +10,7 @@ class Server
 public:
     Server();
     ~Server() = default;
-    int Run();
+    int Run(KosConnectorPtr connector);
 
 private:
     ffd_Aggregation_entity_req m_req {}; 

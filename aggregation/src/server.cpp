@@ -22,7 +22,7 @@ Server::Server()
 }
 
 int
-Server::Run()
+Server::Run(KosConnectorPtr connector)
 {
   ServiceId iid;
   rtl_uint32_t coordinates = 123;

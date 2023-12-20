@@ -1,22 +1,44 @@
-#include "server.h"
 
 #include "aggregation_coordinates.h"
+#include "kos_connector.h"
+
+#include "server.h"
 #include <connections.h>
 #include <iostream>
-
+#include <memory>
+#include <thread>
+#include <chrono>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int main(void)
+void
+Run(KosConnectorPtr connector)
 {
-    std::cerr << connections::Aggregation << ": started" << std::endl;
+    using namespace std::chrono_literals;
 
-    Server server;
-    auto retCode = server.Run();
+  while (1) {
+    connector->Get();
+    std::this_thread::sleep_for(1s);
+  }
+}
 
-    std::cerr << connections::Aggregation << ": stoped. Exit code = " << retCode
-           << std::endl;
+int
+main(void)
+{
+  std::cerr << connections::Aggregation << ": started" << std::endl;
 
-    return retCode;
+  auto kosCon = std::make_shared<KosConnector>();
+  if (!kosCon->Connect()) {
+    std::cerr << "kosCon->Connect failed" << std::endl;
+  }
+  std::thread s(Run, kosCon);
+  s.detach();
+  Server server;
+  auto retCode = server.Run(kosCon);
+
+  std::cerr << connections::Aggregation << ": stoped. Exit code = " << retCode
+            << std::endl;
+
+  return retCode;
 }
