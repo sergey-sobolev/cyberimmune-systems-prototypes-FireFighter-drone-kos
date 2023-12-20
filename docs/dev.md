@@ -376,4 +376,5 @@ Day 2 Dec 19
 
 Day 3 Dec 20
 - [x] ksm logger (improve filtering)
+- [x] Situation
 - [ ] Figure out how to deal with several processes
