@@ -1,0 +1,88 @@
+#include <connections.h>
+#include <iostream>
+
+#include <coresrv/nk/transport-kos.h>
+#include <coresrv/sl/sl_api.h>
+
+#include <Navigation.edl.h>
+
+#include <assert.h>
+
+typedef struct NavigationCoordinatesImpl
+{
+  struct ffd_NavigationCoordinates base;
+  rtl_uint32_t coordinates;
+} NavigationCoordinatesImpl;
+
+static nk_err_t
+Get_impl(struct ffd_NavigationCoordinates* self,
+         const struct ffd_NavigationCoordinates_Get_req* req,
+         const struct nk_arena* req_arena,
+         struct ffd_NavigationCoordinates_Get_res* res,
+         struct nk_arena* res_arena)
+{
+  NavigationCoordinatesImpl* impl = (NavigationCoordinatesImpl*)self;
+  res->coordinates = impl->coordinates;
+  return NK_EOK;
+}
+
+static struct ffd_NavigationCoordinates*
+CreateNavigationCoordinatesImpl(rtl_uint32_t coordinates)
+{
+  static const struct ffd_NavigationCoordinates_ops ops = { .Get = Get_impl };
+
+  static struct NavigationCoordinatesImpl impl = { .base = { &ops } };
+  impl.coordinates = coordinates;
+
+  return &impl.base;
+}
+
+int
+main(void)
+{
+  NkKosTransport transport;
+  ServiceId iid;
+
+  Handle handle =
+    ServiceLocatorRegister(connections::Navigation, NULL, 0, &iid);
+  assert(handle != INVALID_HANDLE);
+
+  NkKosTransport_Init(&transport, handle, NK_NULL, 0);
+
+  ffd_Navigation_entity_req req;
+  char req_buffer[ffd_Navigation_entity_req_arena_size];
+  struct nk_arena req_arena =
+    NK_ARENA_INITIALIZER(req_buffer, req_buffer + sizeof(req_buffer));
+
+  ffd_Navigation_entity_res res;
+  char res_buffer[ffd_Navigation_entity_res_arena_size];
+  struct nk_arena res_arena =
+    NK_ARENA_INITIALIZER(res_buffer, res_buffer + sizeof(res_buffer));
+
+  ffd_NavigationCoordinates_component component;
+  ffd_NavigationCoordinates_component_init(
+    &component, CreateNavigationCoordinatesImpl(123));
+
+  ffd_Navigation_entity entity;
+  ffd_Navigation_entity_init(&entity, &component);
+
+  std::cerr << connections::Navigation << ": started" << std::endl;
+
+  while (true) {
+    nk_req_reset(&req);
+    nk_arena_reset(&req_arena);
+    nk_arena_reset(&res_arena);
+    if (nk_transport_recv(&transport.base, &req.base_, &req_arena) != NK_EOK) {
+      std::cerr << "nk_transport_recv error" << std::endl;
+    } else {
+      ffd_Navigation_entity_dispatch(
+        &entity, &req.base_, &req_arena, &res.base_, &res_arena);
+    }
+    if (nk_transport_reply(&transport.base, &res.base_, &res_arena) != NK_EOK) {
+      std::cerr << "nk_transport_reply error" << std::endl;
+    }
+  };
+  std::cerr << connections::Navigation << ": exiting" << std::endl;
+
+  return EXIT_SUCCESS;
+}

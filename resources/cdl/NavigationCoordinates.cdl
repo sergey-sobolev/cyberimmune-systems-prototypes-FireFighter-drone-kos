@@ -1,0 +1,5 @@
+component ffd.NavigationCoordinates
+
+endpoints {
+    coordinates: ffd.NavigationCoordinates
+}

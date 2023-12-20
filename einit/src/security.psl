@@ -1,0 +1,80 @@
+use nk.base._
+use nk.flow._
+use external._
+use internal._
+
+/* Platform-specific EDL descriptions. */
+use EDL kl.drivers.SDCard
+use EDL kl.drivers.BSP
+use EDL kl.drivers.GPIO
+
+/* Allows all tasks to return errors */
+error
+{
+    grant()
+}
+
+/**
+ * Allows the Einit program to start the kl.drivers.GPIO program.
+ */
+execute src = Einit, dst = kl.drivers.GPIO
+{
+    grant()
+}
+
+/**
+ * Allows the tasks with the kl.drivers.GPIO class to send requests to the
+ * KasperskyOS kernel and get responses. This enables the GPIO driver to use
+ * core endpoints.
+ */
+request src = kl.drivers.GPIO, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.drivers.GPIO
+{
+    grant()
+}
+
+// "flow" policy family instance representing the status of a request from the client to the server.
+policy object request_state : Flow {
+    type States = "not_sent" | "sent"
+    config = {
+        states      : [ "not_sent", "sent" ],
+        initial     : "not_sent",
+        transitions : {
+            "not_sent" : [ "sent" ],
+            "sent"     : [ "not_sent" ]
+        }
+    }
+}
+
+// We declare the profile for audit.
+audit profile trace = {
+    // Complete silence.
+    0: {},
+    // Only denied by kss.
+    1: {
+        base: { kss: [ "denied" ] },
+    },
+    // Only denied from everyone.
+    2: {
+        base: { kss: [ "denied" ] },
+        request_state: {
+            omit: [ ],
+            kss: [ "denied" ]
+        }
+    },
+    // All listening.
+    3: {
+        base: { kss: [ "granted", "denied" ] },
+        request_state: {
+            omit: [ ],
+            kss: [ "granted", "denied" ]
+        }
+    }
+}
+// We assign the level of the audit profile used by default.
+audit default = trace 3
+

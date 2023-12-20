@@ -1,0 +1,6 @@
+package ffd.NavigationCoordinates
+
+interface
+{
+    Get(out UInt32 coordinates);
+}

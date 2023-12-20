@@ -1,0 +1,39 @@
+/* Including EDL files. */
+use EDL ffd.Aggregation
+use EDL ffd.Navigation
+use EDL ffd.KlogEntity
+use EDL ffd.KlogStorageEntity
+
+request src=ffd.KlogEntity dst=ffd.KlogStorageEntity interface=kl.KlogStorage method=write { grant () }
+response src=ffd.KlogStorageEntity dst=ffd.KlogEntity interface=kl.KlogStorage method=write { grant () }
+
+request src = ffd.Aggregation, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Aggregation
+{
+    grant()
+}
+
+request src = ffd.Navigation, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Navigation
+{
+    grant()
+}
+
+request src = ffd.Aggregation, dst = ffd.Navigation
+{
+    grant()
+}
+
+response src = ffd.Navigation, dst = ffd.Aggregation
+{
+    grant()
+}
+

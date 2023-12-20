@@ -1,0 +1,6 @@
+entity ffd.KlogStorageEntity
+
+components
+{
+    klogStorage : kl.KlogStorage
+}
