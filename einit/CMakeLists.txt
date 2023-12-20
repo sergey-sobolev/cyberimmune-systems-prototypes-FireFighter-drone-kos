@@ -38,6 +38,8 @@ endif ()
 #    list (APPEND FILES ${CMAKE_BINARY_DIR}/einit/${FS_IMAGE})
 #endif()
     set (ENTITIES Aggregation
+                  CCU
+                  EAIC
                   Navigation
                   Situation
                   KlogStorageEntity)

@@ -4,13 +4,25 @@ entities:
   connections:
   - target: ffd.Navigation
     id: navigation
-@INIT_client_ENTITY_CONNECTIONS@
+@INIT_Aggregation_ENTITY_CONNECTIONS@
+
+- name: ffd.CCU
+  connections:
+  - target: ffd.Aggregation
+    id: aggregation
+@INIT_CCU_ENTITY_CONNECTIONS@
+
+- name: ffd.EAIC
+  connections:
+  - target: ffd.Aggregation
+    id: aggregation
+@INIT_EAIC_ENTITY_CONNECTIONS@
 
 - name: ffd.Navigation
-@INIT_server_ENTITY_CONNECTIONS@
+@INIT_Navigation_ENTITY_CONNECTIONS@
 
 - name: ffd.Situation
-@INIT_server_ENTITY_CONNECTIONS@
+@INIT_Situation_ENTITY_CONNECTIONS@
 
 - name: ffd.KlogEntity
   path: @INIT_KlogEntity_PATH@

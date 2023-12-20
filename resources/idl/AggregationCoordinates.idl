@@ -1,0 +1,6 @@
+package ffd.AggregationCoordinates
+
+interface
+{
+    Get(out UInt32 coordinates);
+}

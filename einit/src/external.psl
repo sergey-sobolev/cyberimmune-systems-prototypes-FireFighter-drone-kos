@@ -1,5 +1,7 @@
 /* Including EDL files. */
 use EDL ffd.Aggregation
+use EDL ffd.CCU
+use EDL ffd.EAIC
 use EDL ffd.Navigation
 use EDL ffd.Situation
 use EDL ffd.KlogEntity
@@ -14,12 +16,22 @@ response src = kl.core.Core, dst = ffd.Aggregation
     grant()
 }
 
-response src = kl.core.Core, dst = ffd.Situation
+response src = kl.core.Core, dst = ffd.CCU
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.EAIC
 {
     grant()
 }
 
 response src = kl.core.Core, dst = ffd.Navigation
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Situation
 {
     grant()
 }
@@ -31,6 +43,39 @@ request src = ffd.Aggregation, dst = kl.core.Core
 }
 
 request src = ffd.Aggregation, dst = ffd.Navigation
+{
+    grant()
+}
+
+response src = ffd.Aggregation, dst = ffd.CCU
+{
+    grant()
+}
+
+response src = ffd.Aggregation, dst = ffd.EAIC
+{
+    grant()
+}
+
+
+// CCU
+request src = ffd.CCU, dst = kl.core.Core
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = ffd.Aggregation
+{
+    grant()
+}
+
+// EAIC
+request src = ffd.EAIC, dst = kl.core.Core
+{
+    grant()
+}
+
+request src = ffd.EAIC, dst = ffd.Aggregation
 {
     grant()
 }

@@ -40,9 +40,27 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${VULN_COMPILER_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${VULN_COMPILER_FLAGS}")
 
 # Aggregation
+nk_build_idl_files (aggregation_idl 
+    NK_MODULE "ffd" 
+    IDL "resources/idl/AggregationCoordinates.idl")
+nk_build_cdl_files (aggregation_cdl 
+    IDL_TARGET aggregation_idl 
+    NK_MODULE "ffd" 
+    CDL "resources/cdl/AggregationCoordinates.cdl")
 nk_build_edl_files (aggregation_edl 
+    CDL_TARGET aggregation_cdl 
     NK_MODULE "ffd" 
     EDL "resources/edl/Aggregation.edl")
+
+# CCU
+nk_build_edl_files (ccu_edl 
+    NK_MODULE "ffd" 
+    EDL "resources/edl/CCU.edl")
+
+# EAIC
+nk_build_edl_files (eaic_edl 
+    NK_MODULE "ffd" 
+    EDL "resources/edl/EAIC.edl")
 
 # Navigation
 nk_build_idl_files (navigation_idl 
@@ -70,7 +88,6 @@ nk_build_edl_files (situation_edl
     NK_MODULE "ffd" 
     EDL "resources/edl/Situation.edl")
 
-
 # KLog
 nk_build_edl_files (klog_edl_files
     NK_MODULE "ffd"
@@ -81,6 +98,8 @@ nk_build_edl_files (klog_storage_edl_files
     EDL "resources/edl/KlogStorageEntity.edl")
 
 add_subdirectory (aggregation)
+add_subdirectory (ccu)
+add_subdirectory (eaic)
 add_subdirectory (navigation)
 add_subdirectory (situation)
 add_subdirectory (klog_storage)
