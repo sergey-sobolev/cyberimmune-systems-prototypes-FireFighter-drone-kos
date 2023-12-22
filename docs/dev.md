@@ -23,17 +23,14 @@
  - FPS is listening on 8081 port, so accessible via http://localhost:8081
 
 ## Communications:
- - all modules have queues
-   - send requests go into monitor queue
- - monitor module logic
-   - subscribes to monitor
-   - gets { src, dst, cmd }
-   - checks if allowed
-   - publish to name
+ - all modules have public interfaces accessible via IPC (except FPS)
+   - IPC requests go straight to a module (via KSM, but this is transparent)
+ - `einit/src/*.psl` files are describe allowed actions (everything blocked by default)
  
-## Protocol (used in mosquitto messages):
-  - simple csv
-  - from,to,method[,param1,param2]
+## Protocol:
+  - mostly KOS IPC in use with an exception for fps <-> communication, becase fps is an external service.
+    - idl files are describe interfaces accessibla via IPC with in/out parameters.
+  - for fps <-> communication simple GET/POST requests are in use
 
 ### Interconnection and allowed communications
 ```plantuml:md-interconnection
