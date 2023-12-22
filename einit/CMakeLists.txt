@@ -21,29 +21,55 @@ else ()
      message (FATAL_ERROR "${CMAKE_SYSTEM_PROCESSOR} architecture is not supported." )
 endif ()
 
+if (ROOTFS_SDCARD)
+    set (ROOTFS_ENTITY "kl.VfsSdCardFs")
+    set (FS_BACKEND ${precompiled_vfsVfsSdCardFs})
+    set (FS_IMAGE sdcard0.img)
+    set (FS_IMG_FORMAT fat32)
+    set (FS_IMG_SIZE 64)
+    set (QEMU_FLAGS "-drive file=${FS_IMAGE},if=sd,format=raw")
+else()
+    set (ROOTFS_ENTITY "kl.VfsRamFs")
+    set (FS_BACKEND ${precompiled_vfsVfsRamFs})
+    set (FS_IMAGE ramdisk0.img)
+    set (FS_IMG_FORMAT ext4)
+    set (FS_IMG_SIZE 2)
+    list (APPEND FILES ${CMAKE_BINARY_DIR}/einit/${FS_IMAGE})
+endif()
+
 # Define an ENTITIES variable with a list of programs.
-#if (ROOTFS_SDCARD)
-#    set (ROOTFS_ENTITY "kl.VfsSdCardFs")
-#    set (FS_BACKEND ${precompiled_vfsVfsSdCardFs})
-#    set (FS_IMAGE sdcard0.img)
-#    set (FS_IMG_FORMAT fat32)
-#    set (FS_IMG_SIZE 64)
-#    set (QEMU_FLAGS "-drive file=${FS_IMAGE},if=sd,format=raw")
-#else()
-#    set (ROOTFS_ENTITY "kl.VfsRamFs")
-#    set (FS_BACKEND ${precompiled_vfsVfsRamFs})
-#    set (FS_IMAGE ramdisk0.img)
-#    set (FS_IMG_FORMAT ext4)
-#    set (FS_IMG_SIZE 2)
-#    list (APPEND FILES ${CMAKE_BINARY_DIR}/einit/${FS_IMAGE})
-#endif()
     set (ENTITIES Aggregation
                   CCU
                   EAIC
                   Navigation
                   Situation
-                  KlogStorageEntity)
+                  KlogStorageEntity
+                  ${precompiled_vfsVfsNet}
+                  ${rump_DHCPCD_ENTITY})
     set (CONNECTIONS_CFG_FILE "src/init.yaml.in")
+list (APPEND ENTITIES ${FS_BACKEND})
+
+set_target_properties(${FS_BACKEND} PROPERTIES
+    EXTRA_ARGS "\
+    - -l
+    - devfs /dev devfs 0")
+
+set (EXTRA_CONNECTIONS "\
+  - target: kl.VfsNet
+    id: kl.VfsNet
+  - target: ${ROOTFS_ENTITY}
+    id: ${ROOTFS_ENTITY}")
+    
+set_target_properties (${rump_DHCPCD_ENTITY} PROPERTIES
+    DEPENDS_ON_ENTITY ""
+    EXTRA_CONNECTIONS ${EXTRA_CONNECTIONS}
+    EXTRA_ENV "\
+    VFS_FILESYSTEM_BACKEND: client{fs->net}:${ROOTFS_ENTITY}
+    VFS_NETWORK_BACKEND: client:kl.VfsNet"
+    EXTRA_ARGS "\
+    - '-4'
+    - -f
+    - /etc/dhcpcd.conf")
 
 # Add a target to create disk image.
 add_custom_target (${FS_IMAGE}
@@ -63,9 +89,9 @@ build_kos_hw_image (kos-image
                     IMAGE_FILES ${ENTITIES}
                                 ${FILES})
 
-                            #if (NOT ROOTFS_SDCARD)
-                            #add_dependencies (kos-image ${FS_IMAGE})
-    #endif ()
+if (NOT ROOTFS_SDCARD)
+    add_dependencies (kos-image ${FS_IMAGE})
+endif ()
 target_link_libraries (KlogEntityHw kssaudit)
 
 set (INIT_KlogEntity_PATH "KlogEntityQemu")
@@ -80,7 +106,7 @@ build_kos_qemu_image (kos-qemu-image
                       IMAGE_FILES ${ENTITIES}
                                   ${FILES})
 
-                              #add_dependencies (kos-qemu-image ${FS_IMAGE})
+add_dependencies (kos-qemu-image ${FS_IMAGE})
 target_link_libraries (KlogEntityQemu kssaudit)
 set_target_properties (EinitHw PROPERTIES LINK_FLAGS ${VULN_LDFLAGS})
 set_target_properties (EinitQemu PROPERTIES LINK_FLAGS ${VULN_LDFLAGS})
