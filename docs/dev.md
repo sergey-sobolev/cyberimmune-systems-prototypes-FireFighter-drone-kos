@@ -8,16 +8,16 @@
 - [Dev Plan log](#dev-plan-log)
 
 ## Terms and progress:
-- [ ] FPS (Flight Plan Server) - Источник полётного задания
-- [ ] Communication - Связь
-- [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
-- [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
-- [ ] CCU (Central control unit) - Центральная система управления
 - [ ] Aggregation - Комплексирование
-- [ ] Navigation system - Навигация GNSS + ИНС
-- [ ] Movement control - Управление перемещением
-- [ ] Situation control - Контроль обстановки
+- [ ] CCU (Central control unit) - Центральная система управления
+- [ ] Communication - Связь
 - [ ] Extinguishing - Процедура тушения
+- [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
+- [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+- [ ] FPS (Flight Plan Server) - Источник полётного задания
+- [ ] Movement control - Управление перемещением
+- [ ] Navigation system - Навигация GNSS + ИНС
+- [ ] Situation control - Контроль обстановки
 
 ## Interface
  - FPS is listening on 8081 port, so accessible via http://localhost:8081
