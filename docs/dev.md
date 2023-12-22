@@ -156,12 +156,13 @@ communication -> fps
 ```
 listen
     if start at val
-        pub fmac start at var
-sub communication
-    if started at var:
-        send fps started at var
-    if not_authentic_task at var:
-        send fps not_authentic_task at var
+        request fmac StartAt(var) // true/false
+            if false:
+                send fps not_authentic_task at var
+
+export StartedAt(var): // for ccu
+    send fps started at var
+    return true // or empty
 ```
 
 ### [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
@@ -176,11 +177,13 @@ fmac -> ccu
 - pub  5. execute extinguishing at A
 ```
 ```
-sub fmac
-    if start at var:
-        if(authentic_task_check(var))
-            pub eaic execute at var
-            pub ccu execute at var
+export StartAt(var):
+    if(authentic_task_check(var)):
+        request eaic ExecuteAt(var)
+        request ccu ExecuteAt(var)
+        return true
+    else:
+        return false // not authentic
 ```
 ### [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 ```
@@ -204,17 +207,24 @@ eaic
 - private 29. disable extinguishing/fire
 ```
 ```
-sub eaic
-    execute_action at var // 4
-        task = var
-    action_request // 15
-        pub aggregation get_coordinates // 18
-    coordinates
-        action_is_allowed at task // 20
-        pub extinguishing start_action //21
-        position_control // 23
-    stop_action // 28
-        task="" // 29
+export ExecuteActionAt(var) // 4
+    task = var
+
+export ConfirmAction: // 15
+    send aggregation GetCoordinates // 18
+    ActionIsAllowed(task) // 20, 21
+    in_progress = true
+    return true // StartAction 21 
+
+export StopAction: //28
+    in_progress = false
+    task = ""
+
+PositionControl(): // 23
+    while(1):
+        if in_progress:
+            print "position control" // 23
+            sleep(1)
 ```
 
 ### [ ] CCU (Central control unit) - Центральная система управления
@@ -241,18 +251,17 @@ ccu -> communication
 - pub 30. extinguishing/fire at A has been started
 ```
 ```
-sub ccu:
-    if start_action at A // 5
-        pub aggregation get_coordinates // 9
-    if coordinates //10
-        pub movement move to A // 11
-    if done_movement at A // 13
-        pub extinguishing start_action // 14 extinguish/fire
-    if action_is_running // 26
-        pub extinguishing stop_action // 27
-        pub communication started at A // 30
+public StartActionAt(var): // 5
+    request aggregation GetCoordinates // 9, 10
+    if(request movement MoveTo(var)): // 11, 13
+        request extinguishing StartAction // 14
+
+public StartedAt(var): // 26
+    request communication StartedAt(var): // 30
+    return true // 27
+
 loop:
-    pub situation is_action_in_progress // 24
+    request situation ActionInProgress // 24
 
 ```
 
@@ -278,10 +287,10 @@ aggregation -> eaic
 - pub 19. coordinates and time
 ```
 ```
-export aggregation get_coordinates
+export aggregation GetCoordinates
         return coordinates{var_gps, var_ins}
 loop:
-    request navigation get_coordinates
+    request navigation GetCoordinates
     response (var_gps, var_ins)
         check_coordinates_validity(var_gps, var_ins)
         save coordinates{var_gps, var_ins}
@@ -299,7 +308,7 @@ navigation -> aggregation
 - pub 17. return coordinates
 ```
 ```
-export navigation get_coordinates:
+export navigation GetCoordinates:
     return coordinates{var_gps, var_ins}
 ```
 
@@ -313,7 +322,7 @@ movement -> ccu
 - pub 13. move to A done
 ```
 ```
-export movement move_to(val):
+export movement MoveTo(val):
     calculate_movement(val)
     return true
 ```
@@ -329,9 +338,11 @@ situation -> ccu
 ccu -> situation
 ```
 ```
-sub situation
-  if is_action_running
-      pub from state.action_in_progress
+public ActionIsProgress:
+    if is_action_running
+        return true
+    else:
+        return false
 ```
 ### [ ] Extinguishing - Процедура тушения
 ```
@@ -349,32 +360,43 @@ extinguishing -> eaic
 - pub 28. stop
 ```
 ```
-sub extinguishing
-    action
-        pub eaic action
-    start_action
-        proceed_action()
-    stop_action
-        pub eaic stop_action
+ProceedAction():
+    sleep(10) // imitate load
+
+export StartAction(): // for ccu
+    request eaic ConfirmAction() // true/false
+        if true:
+            InAction = true
+            ProceedAction()
+export StopAction(): // for ccu
+    request eaic StopAction() // true/false
+    InAction = false;
 ```
 
 ## Dev Plan log:
 Day 1 Dec 14
 - Reading KOS docs and experimenting
 
-Day 1 Dec 15
+Day 2 Dec 15
 - Reading KOS docs and experimenting
 
-Day 1 Dec 16
+Day 3 Dec 16
 - Reading KOS docs and experimenting
 
-Day 1 Dec 18
+Day 4 Dec 18
 - Some understanding about IPC
 
-Day 2 Dec 19
+Day 5 Dec 19
 - [x] Aggregation + Navigation modules simple implementation
 
-Day 3 Dec 20
+Day 6 Dec 20
 - [x] ksm logger (improve filtering)
 - [x] Situation
-- [ ] Figure out how to deal with several processes
+- [x] Figure out how to deal with several processes
+
+Day 7 Dec 21
+- Thinking
+
+Day 8 Dec 22
+- [x] Logic in this document updated for kos and ipc
+- [ ] Implement and test communication module
