@@ -1,0 +1,6 @@
+package ffd.CommunicationOutside
+
+interface
+{
+    StartAt(in string<1> task);
+}
