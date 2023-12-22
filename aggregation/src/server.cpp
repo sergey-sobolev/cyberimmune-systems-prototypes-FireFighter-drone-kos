@@ -8,8 +8,6 @@
 #include <Aggregation.edl.h>
 #include "aggregation_coordinates.h"
 #include <connections.h>
-#include <coresrv/nk/transport-kos.h>
-#include <coresrv/sl/sl_api.h>
 
 #include <assert.h>
 
@@ -22,7 +20,7 @@ Server::Server()
 }
 
 int
-Server::Run(KosConnectorPtr connector)
+Server::Run(AppConnectorPtr connector)
 {
   ServiceId iid;
   rtl_uint32_t coordinates = 123;

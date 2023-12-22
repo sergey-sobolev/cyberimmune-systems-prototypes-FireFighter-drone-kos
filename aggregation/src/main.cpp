@@ -1,6 +1,6 @@
 
 #include "aggregation_coordinates.h"
-#include "kos_connector.h"
+#include "app_connector.h"
 
 #include "server.h"
 #include <connections.h>
@@ -13,7 +13,7 @@
 #include <sys/types.h>
 
 void
-Run(KosConnectorPtr connector)
+Run(AppConnectorPtr connector)
 {
     using namespace std::chrono_literals;
 
@@ -28,14 +28,14 @@ main(void)
 {
   std::cerr << connections::Aggregation << ": started" << std::endl;
 
-  auto kosCon = std::make_shared<KosConnector>();
-  if (!kosCon->Connect()) {
-    std::cerr << "kosCon->Connect failed" << std::endl;
+  auto appCon = std::make_shared<AppConnector>();
+  if (!appCon->Connect()) {
+    std::cerr << "appCon->Connect failed" << std::endl;
   }
-  std::thread s(Run, kosCon);
+  std::thread s(Run, appCon);
   s.detach();
   Server server;
-  auto retCode = server.Run(kosCon);
+  auto retCode = server.Run(appCon);
 
   std::cerr << connections::Aggregation << ": stoped. Exit code = " << retCode
             << std::endl;

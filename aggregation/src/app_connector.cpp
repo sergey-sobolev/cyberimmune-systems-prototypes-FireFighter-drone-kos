@@ -1,11 +1,11 @@
-#include "kos_connector.h"
+#include "app_connector.h"
 #include "connections.h"
 
 #include <rtl/string.h>
 
 #include <iostream>
 
-bool KosConnector::Connect()
+bool AppConnector::Connect()
 {
     auto handle = ServiceLocatorConnect(connections::Navigation);
     if (handle == INVALID_HANDLE)
@@ -38,7 +38,7 @@ bool KosConnector::Connect()
     return true;
 }
 
-bool KosConnector::Get()
+bool AppConnector::Get()
 {
     ffd_NavigationCoordinates_Get_req req {};
     ffd_NavigationCoordinates_Get_res res {};
