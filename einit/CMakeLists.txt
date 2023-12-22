@@ -39,8 +39,12 @@ endif()
 
 # Define an ENTITIES variable with a list of programs.
     set (ENTITIES Aggregation
+                  Communication
                   CCU
+                  Extinguishing
+                  FMAC
                   EAIC
+                  Movement
                   Navigation
                   Situation
                   KlogStorageEntity
