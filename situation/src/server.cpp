@@ -43,7 +43,7 @@ Server::Run()
 
   ffd_SituationActions_component component;
   ffd_SituationActions_component_init(
-    &component, SituationActionsHandler::CreateImpl(actions));
+    &component, SituationActionsHandler::CreateImpl());
 
   ffd_Situation_entity entity;
   ffd_Situation_entity_init(&entity, &component);

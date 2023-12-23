@@ -7,12 +7,12 @@
 class SituationActionsHandler : ffd_SituationActions_ops
 {
     public:
-        static ffd_SituationActions *CreateImpl(rtl_uint32_t Actions);
+        static ffd_SituationActions *CreateImpl();
         rtl_uint32_t Actions();
 
-        SituationActionsHandler() = delete;
+        //SituationActionsHandler() = delete;
         ~SituationActionsHandler() = default;
 
-    private:
-        SituationActionsHandler(rtl_uint32_t Actions);
+    //private:
+        //SituationActionsHandler(rtl_uint32_t Actions);
 };

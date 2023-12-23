@@ -14,31 +14,31 @@ struct SituationActionsHandlerImpl : ffd_SituationActions_ops
 };
 
 static nk_err_t
-GetImpl(struct ffd_SituationActions* self,
-         __rtl_unused const ffd_SituationActions_Get_req* req,
+ActionInProgressImpl(struct ffd_SituationActions* self,
+         __rtl_unused const ffd_SituationActions_ActionInProgress_req* req,
          __rtl_unused const nk_arena* req_arena,
-         ffd_SituationActions_Get_res* res,
+         ffd_SituationActions_ActionInProgress_res* res,
          __rtl_unused nk_arena* res_arena)
 {
   SituationActionsHandlerImpl* impl = (SituationActionsHandlerImpl*)self;
-  res->actions = impl->handler->Actions();
+  //res->actions = impl->handler->Actions();
   return NK_EOK;
 }
 
-ffd_SituationActions *SituationActionsHandler::CreateImpl(rtl_uint32_t actions)
+ffd_SituationActions *SituationActionsHandler::CreateImpl()
 {
-    static SituationActionsHandler position(actions);
+    //static SituationActionsHandler position();
     static SituationActionsHandlerImpl ops = {};
     static ffd_SituationActions impl = {.ops = &ops};
 
-    ops.Get = GetImpl;
-    ops.handler = &position;
+    ops.ActionInProgress = ActionInProgressImpl;
+    //ops.handler = &position;
 
   return &impl;
 }
 
-SituationActionsHandler::SituationActionsHandler(rtl_uint32_t actions)
-{}
+//SituationActionsHandler::SituationActionsHandler()
+//{}
 
 rtl_uint32_t SituationActionsHandler::Actions()
 {
