@@ -37,6 +37,61 @@ response src = kl.core.Core, dst = kl.drivers.GPIO
     grant()
 }
 
+// kl.drivers.SDCard
+request src = kl.drivers.SDCard, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.drivers.SDCard
+{
+    grant()
+}
+
+security src = kl.drivers.SDCard, method = Register
+{
+    grant ()
+}
+
+
+// kl.drivers.BSP
+request src = kl.drivers.BSP, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.drivers.BSP
+{
+    grant()
+}
+
+// kl.VfsSdCardFs
+request src = kl.VfsSdCardFs, dst = kl.drivers.SDCard
+{
+    grant()
+}
+
+response src = kl.drivers.SDCard, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+// kl.VfsRamFs
+request src = kl.VfsRamFs, dst = kl.drivers.RAMDisk
+{
+    grant()
+}
+
+response src = kl.drivers.RAMDisk, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+security src = kl.drivers.RAMDisk, method = Register
+{
+    grant ()
+}
+
 // "flow" policy family instance representing the status of a request from the client to the server.
 policy object request_state : Flow {
     type States = "not_sent" | "sent"

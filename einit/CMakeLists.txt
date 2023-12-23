@@ -4,6 +4,17 @@ project (einit)
 include (platform/image)
 
 find_package(kss REQUIRED)
+
+find_package(vfs REQUIRED)
+include_directories (${vfs_INCLUDE})
+
+find_package (precompiled_vfs REQUIRED)
+include_directories (${precompiled_vfs_INCLUDE})
+
+# dhcp implementation
+find_package (rump REQUIRED COMPONENTS DHCPCD_ENTITY)
+include_directories (${rump_INCLUDE})
+
 add_executable (KlogEntityHw "src/klog_entity.c")
 target_link_libraries (KlogEntityHw ${klog_SYSTEM_AUDIT_LIB})
 add_dependencies (KlogEntityHw klog_edl_files)

@@ -9,6 +9,8 @@
  */
 use EDL Einit
 use EDL kl.core.Core
+use EDL kl.rump.Dhcpcd
+use EDL kl.drivers.RAMDisk
 use EDL ffd.KlogEntity
 
 request src=ffd.KlogEntity, dst=kl.core.Core {
@@ -27,9 +29,7 @@ response src=kl.core.Core, dst=ffd.KlogStorageEntity {
     grant()
 }
 
-/**
- * Allows the KasperskyOS kernel to start itself and tasks with the Einit class.
- */
+// kl.core.Core
 execute src = kl.core.Core, dst = kl.core.Core
 {
     grant()
@@ -40,18 +40,13 @@ execute src = kl.core.Core, dst = Einit
     grant()
 }
 
-/**
- * Allows the Einit program to start other programs.
- */
+
+// Einit
 execute src = Einit
 {
     grant()
 }
 
-/**
- * Allows the tasks with the Einit class to send requests to the KasperskyOS kernel and get
- * responses. This enables the Einit program to use core endpoints.
- */
 request src = Einit, dst = kl.core.Core
 {
     grant()
@@ -61,3 +56,26 @@ response src = kl.core.Core, dst = Einit
 {
     grant()
 }
+
+// kl.rump.Dhcpd
+request src = kl.rump.Dhcpcd, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+// kl.drivers.RAMDisk
+request src = kl.drivers.RAMDisk, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.drivers.RAMDisk
+{
+    grant()
+}
+

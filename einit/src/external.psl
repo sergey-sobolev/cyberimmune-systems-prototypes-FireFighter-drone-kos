@@ -10,6 +10,9 @@ use EDL ffd.Navigation
 use EDL ffd.Situation
 use EDL ffd.KlogEntity
 use EDL ffd.KlogStorageEntity
+use EDL kl.VfsRamFs
+use EDL kl.VfsSdCardFs
+use EDL kl.VfsNet
 
 request src=ffd.KlogEntity dst=ffd.KlogStorageEntity interface=kl.KlogStorage method=write { grant () }
 response src=ffd.KlogStorageEntity dst=ffd.KlogEntity interface=kl.KlogStorage method=write { grant () }
@@ -104,6 +107,36 @@ request src = ffd.Communication, dst = ffd.FMAC
 }
 
 response src = ffd.FMAC, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsNet
+{
+    grant()
+}
+
+response src = kl.VfsNet, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+response src = kl.VfsRamFs, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+response src = kl.VfsSdCardFs, dst = ffd.Communication
 {
     grant()
 }
@@ -217,4 +250,80 @@ response src = kl.core.Core, dst = ffd.Situation
 {
     grant()
 }
+
+// kl.VfsRamFs
+request src = kl.VfsRamFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+// kl.VfsNet
+request src = kl.VfsNet, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsNet
+{
+    grant()
+}
+
+// kl.VfsRamFs
+request src = kl.VfsRamFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+// kl.VfsSdCardFs
+request src = kl.VfsSdCardFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+// kl.rump.Dhcpcd
+request src = kl.rump.Dhcpcd, dst = kl.VfsNet
+{
+    grant()
+}
+
+response src = kl.VfsNet, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+request src = kl.rump.Dhcpcd, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+response src = kl.VfsSdCardFs, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+request src = kl.rump.Dhcpcd, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+response src = kl.VfsRamFs, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
 

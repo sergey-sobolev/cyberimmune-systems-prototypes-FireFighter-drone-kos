@@ -4,7 +4,7 @@ entities:
   connections:
   - target: ffd.Navigation
     id: navigation
-@INIT_Aggregation_ENTITY_CONNECTIONS@
+@INIT_Aggregation_ENTITY_CONNECTIONS+@
 
 - name: ffd.CCU
   connections:
@@ -16,25 +16,31 @@ entities:
     id: movement
   - target: ffd.Situation
     id: situation
-@INIT_CCU_ENTITY_CONNECTIONS@
+@INIT_CCU_ENTITY_CONNECTIONS+@
 
 - name: ffd.Communication
+  env:
+    VFS_FILESYSTEM_BACKEND: client:@ROOTFS_ENTITY@
   connections:
+  - target: kl.VfsNet
+    id: kl.VfsNet
+  - target: @ROOTFS_ENTITY@
+    id: @ROOTFS_ENTITY@
   - target: ffd.FMAC
     id: fmac
-@INIT_Communication_ENTITY_CONNECTIONS@
+@INIT_Communication_ENTITY_CONNECTIONS+@
 
 - name: ffd.EAIC
   connections:
   - target: ffd.Aggregation
     id: aggregation
-@INIT_EAIC_ENTITY_CONNECTIONS@
+@INIT_EAIC_ENTITY_CONNECTIONS+@
 
 - name: ffd.Extinguishing
   connections:
   - target: ffd.EAIC
     id: eaic
-@INIT_EXTINGUISHING_ENTITY_CONNECTIONS@
+@INIT_EXTINGUISHING_ENTITY_CONNECTIONS+@
 
 - name: ffd.FMAC
   connections:
@@ -42,16 +48,16 @@ entities:
     id: CCU
   - target: ffd.EAIC
     id: EAIC
-@INIT_FMAC_ENTITY_CONNECTIONS@
+@INIT_FMAC_ENTITY_CONNECTIONS+@
 
 - name: ffd.Movement
-@INIT_Movement_ENTITY_CONNECTIONS@
+@INIT_Movement_ENTITY_CONNECTIONS+@
 
 - name: ffd.Navigation
-@INIT_Navigation_ENTITY_CONNECTIONS@
+@INIT_Navigation_ENTITY_CONNECTIONS+@
 
 - name: ffd.Situation
-@INIT_Situation_ENTITY_CONNECTIONS@
+@INIT_Situation_ENTITY_CONNECTIONS+@
 
 - name: ffd.KlogEntity
   path: @INIT_KlogEntity_PATH@
