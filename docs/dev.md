@@ -397,4 +397,17 @@ Day 7 Dec 21
 
 Day 8 Dec 22
 - [x] Logic in this document updated for kos and ipc
+- [x] Suggestions have been add as kzip.md (moved to https://forum.kaspersky.com/topic/замечания-и-предложения-по-kos-community-edition-11140-38112/ )
+- [x] Dockerfile and README.md update (how to build and use)
+- [x] dev.md logic for all components has been updated
+- [x] einit *.psl boot and security configs have been updated
+- [x] basic communication component has been added
+
+Day 9 Dec 23
+- [x] components interconnection scheme has been updated
+- [x] edl, cdl, idl for all components have been added
+- [x] idl files have been fixed
+- [x] basic extinguishing, fmac, movement components have been added
+
+Day 10 Dec 23
 - [ ] Implement and test communication module
