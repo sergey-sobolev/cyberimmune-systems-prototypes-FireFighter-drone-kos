@@ -2,5 +2,5 @@ package ffd.MovementActions
 
 interface
 {
-    MoveTo(in Uint32 task);
+    MoveTo(in UInt32 task);
 }

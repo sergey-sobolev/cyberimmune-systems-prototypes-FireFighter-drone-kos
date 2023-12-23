@@ -2,7 +2,7 @@ package ffd.EAICActions
 
 interface
 {
-    StartActionAt(in Uint32 task);
+    StartActionAt(in UInt32 task);
     ConfirmAction();
     StopAction();
 }
