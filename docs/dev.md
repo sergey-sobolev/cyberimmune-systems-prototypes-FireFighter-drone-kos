@@ -36,21 +36,21 @@
 ```plantuml:md-interconnection
 @startuml
 (fps) -> (communication) : 1. start at val\n(not_authentic_task val)\n(via http)
-communication -> (fmac) : 2. start at val\n(true=in_progress\n3. false=not_authentic_task)
+communication -> (fmac) : 2. StartAt(val)\n(true=in_progress\n3. false=not_authentic_task)
 communication -> (fps) : 31. started at val\n(via http)
-fmac --> (eaic) : 4. execute at val\n(true/false)
-fmac --> (ccu) : 5. execute at val\n(true/false)
-eaic --> (aggregation) : 18. get_coordinates\n(19. coordinates with val)
-eaic --> (extinguishing) : 21. start_action
-ccu --> (aggregation) : 9. get_coordinates\n(10. coordinates with val)
-ccu --> (movement) : 11. move to val\n12. calculate movement\n13. done at val
-ccu --> (extinguishing) : 14. start_action
-ccu -> (extinguishing) : 27. stop_action
-ccu -> (situation) : 22. is_action_running\n(23. true/false)
-ccu -> (communication) : 30. started at val
-aggregation --> (navigation) : 6. 16. get_coordinates\n8. check coordinates validity\n7. 17. coordinates with val
-extinguishing --> (eaic) : 15. confirm_action
-extinguishing --> (eaic) : 28. stop_action
+fmac --> (eaic) : 4. StartActionAt(val)
+fmac --> (ccu) : 5. StartActionAt(val)
+eaic --> (aggregation) : 18. Get()\n(19. coordinates with val)
+eaic --> (extinguishing) : 21. StartAction()\n(true/false)
+ccu --> (aggregation) : 9. Get()\n(10. coordinates with val)
+ccu --> (movement) : 11. MoveTo(val)\n12. calculate movement\n13. done at val
+ccu --> (extinguishing) : 14. StartAction()
+ccu -> (extinguishing) : 27. StopAction()
+ccu -> (situation) : 22. ActionInProgress()\n(23. true/false)
+ccu -> (communication) : 30. StartedAt(val)
+aggregation --> (navigation) : 6. 16. Get()\n8. check coordinates validity\n7. 17. coordinates with val
+extinguishing --> (eaic) : 15. ConfirmAction()
+extinguishing --> (eaic) : 28. StopAction()
 @enduml
 ```
 ![](./md-interconnection.svg)
@@ -204,7 +204,7 @@ eaic
 - private 29. disable extinguishing/fire
 ```
 ```
-export ExecuteActionAt(var) // 4
+export StartActionAt(var) // 4
     task = var
 
 export ConfirmAction: // 15
@@ -335,7 +335,7 @@ situation -> ccu
 ccu -> situation
 ```
 ```
-public ActionIsProgress:
+public ActionInProgress:
     if is_action_running
         return true
     else:
