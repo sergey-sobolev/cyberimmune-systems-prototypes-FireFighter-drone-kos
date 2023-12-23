@@ -1,7 +1,11 @@
 /* Including EDL files. */
 use EDL ffd.Aggregation
 use EDL ffd.CCU
+use EDL ffd.Communication
+use EDL ffd.Extinguishing
 use EDL ffd.EAIC
+use EDL ffd.FMAC
+use EDL ffd.Movement
 use EDL ffd.Navigation
 use EDL ffd.Situation
 use EDL ffd.KlogEntity
