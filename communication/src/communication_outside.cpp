@@ -25,22 +25,22 @@ StartedAtImpl(struct ffd_CommunicationOutside* self,
   return NK_EOK;
 }
 
-ffd_CommunicationOutside *CommunicationOutsideHandler::CreateImpl(rtl_uint32_t coordinates)
+ffd_CommunicationOutside *CommunicationOutsideHandler::CreateImpl()
 {
-    static CommunicationOutsideHandler position(coordinates);
+    //static CommunicationOutsideHandler _handler;
     static CommunicationOutsideHandlerImpl ops = {};
     static ffd_CommunicationOutside impl = {.ops = &ops};
 
     ops.StartedAt = StartedAtImpl;
-    ops.handler = &position;
+    //ops.handler = &_handler;
 
   return &impl;
 }
 
-CommunicationOutsideHandler::CommunicationOutsideHandler(rtl_uint32_t coordinates)
-{}
+//CommunicationOutsideHandler::CommunicationOutsideHandler()
+//{}
 
-rtl_uint32_t CommunicationOutsideHandler::Coordinates()
-{
-    return 123;
-}
+//rtl_uint32_t CommunicationOutsideHandler::Outside()
+//{
+//    return 123;
+//}

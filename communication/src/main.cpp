@@ -18,7 +18,7 @@ Run(AppConnectorPtr connector)
     using namespace std::chrono_literals;
 
   while (1) {
-    connector->Get();
+    connector->StartAt();
     std::this_thread::sleep_for(1s);
   }
 }
@@ -29,7 +29,7 @@ main(void)
   std::cerr << connections::Communication << ": started" << std::endl;
 
   auto appCon = std::make_shared<AppConnector>();
-  if (!appCon->Connect()) {
+  if (!appCon->ConnectToFMAC()) {
     std::cerr << "appCon->Connect failed" << std::endl;
   }
   std::thread s(Run, appCon);

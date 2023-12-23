@@ -5,9 +5,11 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Communication.edl.h>
-#include "communication_outside.h"
+#include <FMAC.edl.h>
+#include "fmac_actions.h"
 #include <connections.h>
+#include <coresrv/nk/transport-kos.h>
+#include <coresrv/sl/sl_api.h>
 
 #include <assert.h>
 
@@ -20,30 +22,30 @@ Server::Server()
 }
 
 int
-Server::Run(AppConnectorPtr connector)
+Server::Run()
 {
   ServiceId iid;
   NkKosTransport transport;
 
   auto handleClients =
-    ServiceLocatorRegister(connections::Communication, NULL, 0, &iid);
+    ServiceLocatorRegister(connections::FMAC, NULL, 0, &iid);
   if (handleClients == INVALID_HANDLE) {
     std::cerr
-      << connections::Communication
+      << connections::FMAC
       << "Error: can`t establish static IPC connection! Connection name: "
-      << connections::Communication << std::endl;
+      << connections::FMAC << std::endl;
     return EXIT_FAILURE;
   }
 
   // Initialize transport to clients.
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
-  ffd_CommunicationOutside_component component;
-  ffd_CommunicationOutside_component_init(
-    &component, CommunicationOutsideHandler::CreateImpl());
+  ffd_FMACActions_component component;
+  ffd_FMACActions_component_init(
+    &component, FMACActionsHandler::CreateImpl());
 
-  ffd_Communication_entity entity;
-  ffd_Communication_entity_init(&entity, &component);
+  ffd_FMAC_entity entity;
+  ffd_FMAC_entity_init(&entity, &component);
 
   // Main cycle: requests execution.
   while (true) {
@@ -55,17 +57,17 @@ Server::Run(AppConnectorPtr connector)
     if (auto resCode =
           nk_transport_recv(&transport.base, &m_req.base_, &m_reqArena);
         resCode == NK_EOK)
-      ffd_Communication_entity_dispatch(
+      ffd_FMAC_entity_dispatch(
         &entity, &m_req.base_, &m_reqArena, &m_res.base_, &m_resArena);
     else
-      std::cerr << connections::Communication
+      std::cerr << connections::FMAC
                 << "Error: nk_transport_recv is not OK. Error code = "
                 << resCode << std::endl;
 
     if (auto resCode =
           nk_transport_reply(&transport.base, &m_res.base_, &m_resArena);
         resCode != NK_EOK)
-      std::cerr << connections::Communication
+      std::cerr << connections::FMAC
                 << "Error: nk_transport_reply is not OK. Error code = "
                 << resCode << std::endl;
   }

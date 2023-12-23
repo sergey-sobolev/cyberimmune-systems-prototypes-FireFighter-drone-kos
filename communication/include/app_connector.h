@@ -1,6 +1,6 @@
 #pragma once
 
-#include "i_navigationcoordinatesreader.h"
+#include "i_fmacactionsreader.h"
 
 #include <FMACActions.idl.h>
 
@@ -16,7 +16,7 @@ public:
     AppConnector() = default;
 
     // Open IPC connection
-    bool FMACConnect();
+    bool ConnectToFMAC();
 
     // Navigation
     bool StartAt() override; //TODO: string value
