@@ -184,7 +184,7 @@ public StartActionAt(var): // 5
 
 public StartedAt(var): // 26
     request communication StartedAt(var): // 30
-    return true // 27
+    return 1(true) // 27
 
 loop:
     request situation ActionInProgress // 24
@@ -206,12 +206,12 @@ communication -> fps
 listen
     if start at val
         request fmac StartAt(var) // true/false
-            if false:
+            if 0(false):
                 send fps not_authentic_task at var
 
 export StartedAt(var): // for ccu
     send fps started at var
-    return true // or empty
+    return 1(true) // or empty
 ```
 
 ### [ ] Extinguishing - Процедура тушения
@@ -234,12 +234,12 @@ ProceedAction():
     sleep(10) // imitate load
 
 export StartAction(): // for ccu
-    request eaic ConfirmAction() // true/false
+    request eaic ConfirmAction() // true/false 1/0
         if true:
             InAction = true
             ProceedAction()
 export StopAction(): // for ccu
-    request eaic StopAction() // true/false
+    request eaic StopAction() // true/false 1/0
     InAction = false;
 ```
 
@@ -272,7 +272,7 @@ export ConfirmAction: // 15
     send aggregation GetCoordinates // 18
     ActionIsAllowed(task) // 20, 21
     in_progress = true
-    return true // StartAction 21 
+    return 1(true) // StartAction 21 
 
 export StopAction: //28
     in_progress = false
@@ -301,9 +301,9 @@ export StartAt(var):
     if(authentic_task_check(var)):
         request eaic ExecuteAt(var)
         request ccu ExecuteAt(var)
-        return true
+        return 1(true)
     else:
-        return false // not authentic
+        return 0(false) // not authentic
 ```
 
 ### [ ] FPS (Flight Plan Server) - Источник полётного задания
@@ -335,7 +335,7 @@ movement -> ccu
 ```
 export movement MoveTo(val):
     calculate_movement(val)
-    return true
+    return 1(true)
 ```
 
 ### [ ] Navigation system - Навигация GNSS + ИНС
@@ -350,7 +350,7 @@ navigation -> aggregation
 - pub 17. return coordinates
 ```
 ```
-export navigation GetCoordinates:
+export navigation Get:
     return coordinates{var_gps, var_ins}
 ```
 
@@ -367,9 +367,9 @@ ccu -> situation
 ```
 public ActionInProgress:
     if is_action_running
-        return true
+        return 1(true)
     else:
-        return false
+        return 0(false)
 ```
 ## Dev Plan log:
 Day 1 Dec 14
