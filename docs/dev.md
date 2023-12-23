@@ -122,21 +122,73 @@ communication -> fps
 ```
 
 ## Logic with pseudocode:
-### [ ] FPS (Flight Plan Server) - Источник полётного задания
+### [ ] Aggregation - Комплексирование
 ```
-fps -> communication
-pub  1. start extinguishing at A
-communication -> fps
-sub 31. extinguishing/fire at A has been started
+aggregation -> navigation
+- pub  6. get coordinates
+navigation -> aggregation
+- sub  7. return coordinates
+aggregation
+- pub  8. check coordinates validity
+ccu -> aggregation
+- sub  9. get_coordinates
+aggregation -> ccu
+- pub 10. coordinates
+aggregation -> navigation
+- pub 16. get coordinates
+navigation -> aggregation
+- sub 17. return coordinates
+eaic -> aggregation
+- sub 18. get coordinates
+aggregation -> eaic
+- pub 19. coordinates and time
 ```
 ```
-listen // for commands and an interchange data with the communication
-    if started at val
-        send client started at val // via web interface
-    if start at val
-        send communication start at val
-    if not_authentic_task at val
-        send client not_authentic_task at val
+export aggregation GetCoordinates
+        return coordinates{var_gps, var_ins}
+loop:
+    request navigation GetCoordinates
+    response (var_gps, var_ins)
+        check_coordinates_validity(var_gps, var_ins)
+        save coordinates{var_gps, var_ins}
+```
+
+### [ ] CCU (Central control unit) - Центральная система управления
+```
+fmac -> ccu
+- sub  5. execute extinguishing at A
+ccu -> aggregation
+- pub  9. get coordinates
+aggregation -> ccu
+- sub 10. coordinates
+ccu -> movement
+- pub 11. move to A
+movement -> ccu
+- sub 13. move to A done
+ccu -> extinguishing
+- pub 14. start extinguish/fire
+ccu -> situation
+- pub 24. check if algo is running
+situation -> ccu
+- sub 26. extinguishing is running
+ccu -> extinguishing
+- pub 27. stop algo extinguishing
+ccu -> communication
+- pub 30. extinguishing/fire at A has been started
+```
+```
+public StartActionAt(var): // 5
+    request aggregation GetCoordinates // 9, 10
+    if(request movement MoveTo(var)): // 11, 13
+        request extinguishing StartAction // 14
+
+public StartedAt(var): // 26
+    request communication StartedAt(var): // 30
+    return true // 27
+
+loop:
+    request situation ActionInProgress // 24
+
 ```
 
 ### [ ] Communication - Связь
@@ -162,26 +214,35 @@ export StartedAt(var): // for ccu
     return true // or empty
 ```
 
-### [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+### [ ] Extinguishing - Процедура тушения
 ```
-communication -> fmac
-- sub  2. start extinguishing at A
-fmac
-- private  3. Authentic task check
-fmac -> eaic
-- pub  4. execute extinguishing at A
-fmac -> ccu
-- pub  5. execute extinguishing at A
+ccu -> extinguishing
+- sub 14. start extinguish/fire
+extinguishing -> eaic
+- pub 15. extinguishing request
+eaic -> extinguishing
+- sub 21. activate extinguishing/fire
+extinguishing
+- private 22. proceed extinguishing/fire
+ccu -> extinguishing
+- sub 27. stop algo extinguishing
+extinguishing -> eaic
+- pub 28. stop
 ```
 ```
-export StartAt(var):
-    if(authentic_task_check(var)):
-        request eaic ExecuteAt(var)
-        request ccu ExecuteAt(var)
-        return true
-    else:
-        return false // not authentic
+ProceedAction():
+    sleep(10) // imitate load
+
+export StartAction(): // for ccu
+    request eaic ConfirmAction() // true/false
+        if true:
+            InAction = true
+            ProceedAction()
+export StopAction(): // for ccu
+    request eaic StopAction() // true/false
+    InAction = false;
 ```
+
 ### [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 ```
 fmac -> eaic
@@ -224,73 +285,57 @@ PositionControl(): // 23
             sleep(1)
 ```
 
-### [ ] CCU (Central control unit) - Центральная система управления
+### [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
 ```
+communication -> fmac
+- sub  2. start extinguishing at A
+fmac
+- private  3. Authentic task check
+fmac -> eaic
+- pub  4. execute extinguishing at A
 fmac -> ccu
-- sub  5. execute extinguishing at A
-ccu -> aggregation
-- pub  9. get coordinates
-aggregation -> ccu
-- sub 10. coordinates
+- pub  5. execute extinguishing at A
+```
+```
+export StartAt(var):
+    if(authentic_task_check(var)):
+        request eaic ExecuteAt(var)
+        request ccu ExecuteAt(var)
+        return true
+    else:
+        return false // not authentic
+```
+
+### [ ] FPS (Flight Plan Server) - Источник полётного задания
+```
+fps -> communication
+pub  1. start extinguishing at A
+communication -> fps
+sub 31. extinguishing/fire at A has been started
+```
+```
+listen // for commands and an interchange data with the communication
+    if started at val
+        send client started at val // via web interface
+    if start at val
+        send communication start at val
+    if not_authentic_task at val
+        send client not_authentic_task at val
+```
+
+### [ ] Movement control - Управление перемещением
+```
 ccu -> movement
-- pub 11. move to A
+- sub 11. move to A
+movement
+- private 12. calculate movement
 movement -> ccu
-- sub 13. move to A done
-ccu -> extinguishing
-- pub 14. start extinguish/fire
-ccu -> situation
-- pub 24. check if algo is running
-situation -> ccu
-- sub 26. extinguishing is running
-ccu -> extinguishing
-- pub 27. stop algo extinguishing
-ccu -> communication
-- pub 30. extinguishing/fire at A has been started
+- pub 13. move to A done
 ```
 ```
-public StartActionAt(var): // 5
-    request aggregation GetCoordinates // 9, 10
-    if(request movement MoveTo(var)): // 11, 13
-        request extinguishing StartAction // 14
-
-public StartedAt(var): // 26
-    request communication StartedAt(var): // 30
-    return true // 27
-
-loop:
-    request situation ActionInProgress // 24
-
-```
-
-### [ ] Aggregation - Комплексирование
-```
-aggregation -> navigation
-- pub  6. get coordinates
-navigation -> aggregation
-- sub  7. return coordinates
-aggregation
-- pub  8. check coordinates validity
-ccu -> aggregation
-- sub  9. get_coordinates
-aggregation -> ccu
-- pub 10. coordinates
-aggregation -> navigation
-- pub 16. get coordinates
-navigation -> aggregation
-- sub 17. return coordinates
-eaic -> aggregation
-- sub 18. get coordinates
-aggregation -> eaic
-- pub 19. coordinates and time
-```
-```
-export aggregation GetCoordinates
-        return coordinates{var_gps, var_ins}
-loop:
-    request navigation GetCoordinates
-    response (var_gps, var_ins)
-        check_coordinates_validity(var_gps, var_ins)
-        save coordinates{var_gps, var_ins}
+export movement MoveTo(val):
+    calculate_movement(val)
+    return true
 ```
 
 ### [ ] Navigation system - Навигация GNSS + ИНС
@@ -307,21 +352,6 @@ navigation -> aggregation
 ```
 export navigation GetCoordinates:
     return coordinates{var_gps, var_ins}
-```
-
-### [ ] Movement control - Управление перемещением
-```
-ccu -> movement
-- sub 11. move to A
-movement
-- private 12. calculate movement
-movement -> ccu
-- pub 13. move to A done
-```
-```
-export movement MoveTo(val):
-    calculate_movement(val)
-    return true
 ```
 
 ### [ ] Situation control - Контроль обстановки
@@ -341,35 +371,6 @@ public ActionInProgress:
     else:
         return false
 ```
-### [ ] Extinguishing - Процедура тушения
-```
-ccu -> extinguishing
-- sub 14. start extinguish/fire
-extinguishing -> eaic
-- pub 15. extinguishing request
-eaic -> extinguishing
-- sub 21. activate extinguishing/fire
-extinguishing
-- private 22. proceed extinguishing/fire
-ccu -> extinguishing
-- sub 27. stop algo extinguishing
-extinguishing -> eaic
-- pub 28. stop
-```
-```
-ProceedAction():
-    sleep(10) // imitate load
-
-export StartAction(): // for ccu
-    request eaic ConfirmAction() // true/false
-        if true:
-            InAction = true
-            ProceedAction()
-export StopAction(): // for ccu
-    request eaic StopAction() // true/false
-    InAction = false;
-```
-
 ## Dev Plan log:
 Day 1 Dec 14
 - Reading KOS docs and experimenting
