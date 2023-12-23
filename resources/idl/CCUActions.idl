@@ -1,0 +1,7 @@
+package ffd.CCUActions
+
+interface
+{
+    StartActionAt(in UInt32 task);
+    StartedAt(in UInt32 task);
+}

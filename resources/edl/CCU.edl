@@ -1,1 +1,6 @@
 entity ffd.CCU
+
+components
+{
+    CCUActions: ffd.CCUActions
+}

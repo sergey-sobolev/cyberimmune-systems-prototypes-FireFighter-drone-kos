@@ -1,0 +1,6 @@
+entity ffd.Extinguishing
+
+components
+{
+    ExtinguishingActions: ffd.ExtinguishingActions
+}

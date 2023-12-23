@@ -39,11 +39,11 @@ endif()
 
 # Define an ENTITIES variable with a list of programs.
     set (ENTITIES Aggregation
-                  Communication
                   CCU
+                  Communication
+                  EAIC
                   Extinguishing
                   FMAC
-                  EAIC
                   Movement
                   Navigation
                   Situation

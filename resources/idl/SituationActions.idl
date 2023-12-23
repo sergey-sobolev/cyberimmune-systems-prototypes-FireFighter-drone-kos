@@ -2,5 +2,5 @@ package ffd.SituationActions
 
 interface
 {
-    Get(out UInt32 actions);
+    ActionInProgress(out UInt32 result);
 }

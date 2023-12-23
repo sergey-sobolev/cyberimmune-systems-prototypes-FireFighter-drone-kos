@@ -1,0 +1,5 @@
+component ffd.FMACActions
+
+endpoints {
+    actions: ffd.FMACActions
+}
