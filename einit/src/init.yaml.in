@@ -10,6 +10,8 @@ entities:
   connections:
   - target: ffd.Aggregation
     id: aggregation
+  - target: ffd.Communication
+    id: communication
   - target: ffd.Extinguishing
     id: extinguishing
   - target: ffd.Movement
@@ -21,6 +23,7 @@ entities:
 - name: ffd.Communication
   env:
     VFS_FILESYSTEM_BACKEND: client:@ROOTFS_ENTITY@
+    VFS_NETWORK_BACKEND: client:kl.VfsNet
   connections:
   - target: kl.VfsNet
     id: kl.VfsNet

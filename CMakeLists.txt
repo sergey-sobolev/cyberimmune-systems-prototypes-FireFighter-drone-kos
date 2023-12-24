@@ -16,6 +16,21 @@ include_directories (${klog_INCLUDE})
 find_package (klog_storage REQUIRED)
 include_directories (${klog_storage_INCLUDE})
 
+find_package(kss REQUIRED)
+
+find_package(vfs REQUIRED)
+include_directories (${vfs_INCLUDE})
+
+find_package (precompiled_vfs REQUIRED)
+include_directories (${precompiled_vfs_INCLUDE})
+
+# dhcp implementation
+find_package (rump REQUIRED COMPONENTS DHCPCD_ENTITY)
+include_directories (${rump_INCLUDE})
+
+option(ROOTFS_SDCARD "Use SD card to mount root filesystem" OFF)
+message(STATUS "Use SD card to mount root filesystem - ${ROOTFS_SDCARD}")
+
 # Include the directory with the generated config header files.
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 

@@ -12,6 +12,9 @@ set (INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set (LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
+find_package (Threads REQUIRED)
+find_package (civetweb REQUIRED)
+
 file (
     GLOB CPP_SRC
     ${SRC_DIR}/*.cpp)
@@ -31,6 +34,9 @@ target_include_directories (
 
 target_link_libraries (
     Communication
+    civetweb::civetweb-cpp
+    ${vfs_CLIENT_LIB}
     ${CMAKE_THREAD_LIBS_INIT})
 
+#set_target_properties (Communication PROPERTIES ${vfs_ENTITY}_REPLACEMENT "")
 set_target_properties (Communication PROPERTIES LINK_FLAGS ${VULN_LDFLAGS})

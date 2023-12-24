@@ -3,18 +3,6 @@ project (einit)
 # Tools for working with KasperskyOS images.
 include (platform/image)
 
-find_package(kss REQUIRED)
-
-find_package(vfs REQUIRED)
-include_directories (${vfs_INCLUDE})
-
-find_package (precompiled_vfs REQUIRED)
-include_directories (${precompiled_vfs_INCLUDE})
-
-# dhcp implementation
-find_package (rump REQUIRED COMPONENTS DHCPCD_ENTITY)
-include_directories (${rump_INCLUDE})
-
 add_executable (KlogEntityHw "src/klog_entity.c")
 target_link_libraries (KlogEntityHw ${klog_SYSTEM_AUDIT_LIB})
 add_dependencies (KlogEntityHw klog_edl_files)
@@ -117,7 +105,7 @@ build_kos_qemu_image (kos-qemu-image
                       SECURITY_PSL ${SECURITY_PSL_FILE}
                       KLOG_ENTITY KlogEntityQemu
                       QEMU_FLAGS "${QEMU_FLAGS}"
-                      QEMU_USER_NETWORK_FLAGS "hostfwd=tcp::1106-:1106"
+                      QEMU_USER_NETWORK_FLAGS "hostfwd=tcp::8081-:8081"
                       IMAGE_FILES ${ENTITIES}
                                   ${FILES})
 
