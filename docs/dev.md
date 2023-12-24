@@ -409,5 +409,8 @@ Day 9 Dec 23
 - [x] idl files have been fixed
 - [x] basic extinguishing, fmac, movement components have been added
 
-Day 10 Dec 23
-- [ ] Implement and test communication module
+Day 10 Dec 24
+- [x] communication module is able to use network
+- [x] communication module web server with works fine
+
+
