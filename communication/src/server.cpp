@@ -59,14 +59,14 @@ Server::Run(AppConnectorPtr connector)
         &entity, &m_req.base_, &m_reqArena, &m_res.base_, &m_resArena);
     else
       std::cerr << connections::Communication
-                << "Error: nk_transport_recv is not OK. Error code = "
+                << ": Error: nk_transport_recv is not OK. Error code = "
                 << resCode << std::endl;
 
     if (auto resCode =
           nk_transport_reply(&transport.base, &m_res.base_, &m_resArena);
         resCode != NK_EOK)
       std::cerr << connections::Communication
-                << "Error: nk_transport_reply is not OK. Error code = "
+                << ": Error: nk_transport_reply is not OK. Error code = "
                 << resCode << std::endl;
   }
 

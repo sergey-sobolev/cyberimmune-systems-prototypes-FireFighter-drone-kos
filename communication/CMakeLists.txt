@@ -25,6 +25,7 @@ add_executable (
 
 add_dependencies (
     Communication
+    fps
     fmac_idl
     communication_edl)
 

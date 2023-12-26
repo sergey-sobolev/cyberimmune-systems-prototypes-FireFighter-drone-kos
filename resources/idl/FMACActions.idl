@@ -2,5 +2,5 @@ package ffd.FMACActions
 
 interface
 {
-    StartAt(in UInt32 task);
+    StartAt(in UInt32 task, out UInt32 result);
 }

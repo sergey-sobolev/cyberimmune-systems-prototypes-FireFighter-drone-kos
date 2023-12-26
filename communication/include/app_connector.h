@@ -3,7 +3,7 @@
 #include "i_fmacactionsreader.h"
 
 #include <FMACActions.idl.h>
-
+#include "HTTPRequest.h"
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
@@ -18,8 +18,8 @@ public:
     // Open IPC connection
     bool ConnectToFMAC();
 
-    // Navigation
-    bool StartAt() override; //TODO: string value
+    // FMAC
+    bool StartAt(rtl_uint32_t task) override;
 
 private:
     NkKosTransport m_transport;

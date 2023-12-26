@@ -41,10 +41,11 @@ bool AppConnector::ConnectToFMAC()
 }
 
 
-bool AppConnector::StartAt() //TODO: string value
+bool AppConnector::StartAt(rtl_uint32_t _task)
 {
     ffd_FMACActions_StartAt_req req {};
     ffd_FMACActions_StartAt_res res {};
+    req.task = _task;
     auto code = ffd_FMACActions_StartAt(
         &m_fmacActionsProxy.base, &req, NULL, &res, NULL);
     if (code == NK_EOK)
@@ -52,8 +53,13 @@ bool AppConnector::StartAt() //TODO: string value
         std::cerr << connections::Communication << " -> " << connections::FMAC
                 << ": StartAt()" << std::endl;
 
+    } else {
+         std::cerr << connections::Communication << " -> " << connections::FMAC
+                << ": StartAt() - FAILED" << std::endl;
     }
-
+    if (res.result == 0) { // not authenticated, 0 = false
+        return false;
+    }
     return code == NK_EOK;
 }
 

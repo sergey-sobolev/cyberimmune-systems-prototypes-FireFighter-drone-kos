@@ -181,6 +181,10 @@ nk_build_edl_files (klog_storage_edl_files
     NK_MODULE "ffd"
     EDL "resources/edl/KlogStorageEntity.edl")
 
+# fps is a web server which runs separate
+add_custom_target(fps COMMAND make fps
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/fps
+)
 add_subdirectory (aggregation)
 add_subdirectory (ccu)
 add_subdirectory (communication)

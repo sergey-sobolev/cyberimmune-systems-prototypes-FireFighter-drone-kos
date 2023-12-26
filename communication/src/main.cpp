@@ -34,7 +34,7 @@ RunAPI(AppConnectorPtr connector)
 
   std::vector<std::string> cppOptions = { "listening_ports", consts::Port};
   CivetServer server(cppOptions);
-  APIHandler hApi;
+  APIHandler hApi(connector);
   server.addHandler(consts::ApiUri, hApi);
   std::cout << connections::Communication << " WebServer started on port: " << consts::Port << std::endl;
 

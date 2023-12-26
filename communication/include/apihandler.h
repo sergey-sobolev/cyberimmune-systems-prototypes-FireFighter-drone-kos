@@ -1,11 +1,12 @@
 #pragma once
 
+#include "i_fmacactionsreader.h"
 #include <CivetServer.h>
 
 class APIHandler : public CivetHandler
 {
 public:
-    APIHandler();
+    APIHandler(ipc::IFMACActionsReaderPtr fmacReader);
     ~APIHandler() override = default;
 
     bool handleGet(CivetServer *server, struct mg_connection *conn) override;
@@ -17,5 +18,5 @@ private:
 
 private:
     bool handleAll(const char* method, CivetServer* server, struct mg_connection* conn);
-    //ipc::ILoginFormReaderPtr m_comExecutor;
+    ipc::IFMACActionsReaderPtr m_comExecutor;
 };

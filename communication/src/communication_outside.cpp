@@ -15,12 +15,20 @@ struct CommunicationOutsideHandlerImpl : ffd_CommunicationOutside_ops
 
 static nk_err_t
 StartedAtImpl(struct ffd_CommunicationOutside* self,
-         __rtl_unused const ffd_CommunicationOutside_StartedAt_req* req,
+         const ffd_CommunicationOutside_StartedAt_req* req,
          __rtl_unused const nk_arena* req_arena,
          ffd_CommunicationOutside_StartedAt_res* res,
          __rtl_unused nk_arena* res_arena)
 {
   CommunicationOutsideHandlerImpl* impl = (CommunicationOutsideHandlerImpl*)self;
+  try {
+    http::Request request{ "http://192.168.8.8:8080/api?command=started&task=" + std::to_string(req->task) };
+    const auto response = request.send("GET");
+  } catch (const std::exception& e){
+      std::cerr << "Request to fps failed, error: " << e.what() << std::endl;
+      res->result = 0; // bool false = 0
+  }
+  res->result = 1; // bool true = 1
   //res->coordinates = impl->handler->Coordinates();
   return NK_EOK;
 }
