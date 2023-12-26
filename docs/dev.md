@@ -10,11 +10,11 @@
 ## Terms and progress:
 - [ ] Aggregation - Комплексирование
 - [ ] CCU (Central control unit) - Центральная система управления
-- [ ] Communication - Связь
+- [x] Communication - Связь
 - [ ] Extinguishing - Процедура тушения
 - [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 - [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
-- [ ] FPS (Flight Plan Server) - Источник полётного задания
+- [x] FPS (Flight Plan Server) - Источник полётного задания
 - [ ] Movement control - Управление перемещением
 - [ ] Navigation system - Навигация GNSS + ИНС
 - [ ] Situation control - Контроль обстановки
@@ -191,7 +191,7 @@ loop:
 
 ```
 
-### [ ] Communication - Связь
+### [x] Communication - Связь
 ```
 fps -> communication
 - sub  1. start extinguishing at A
@@ -413,4 +413,9 @@ Day 10 Dec 24
 - [x] communication module is able to use network
 - [x] communication module web server with works fine
 
+Day 11 Dec 25
+- [x] communication and fps components integration
+
+Day 12 Dec 26
+- [x] fps has been added
 
