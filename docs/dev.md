@@ -13,7 +13,7 @@
 - [x] Communication - Связь
 - [ ] Extinguishing - Процедура тушения
 - [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
-- [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+- [x] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
 - [x] FPS (Flight Plan Server) - Источник полётного задания
 - [ ] Movement control - Управление перемещением
 - [ ] Navigation system - Навигация GNSS + ИНС
@@ -285,7 +285,7 @@ PositionControl(): // 23
             sleep(1)
 ```
 
-### [ ] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
+### [x] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
 ```
 communication -> fmac
 - sub  2. start extinguishing at A
@@ -299,14 +299,14 @@ fmac -> ccu
 ```
 export StartAt(var):
     if(authentic_task_check(var)):
-        request eaic ExecuteAt(var)
-        request ccu ExecuteAt(var)
+        request eaic StartActionAt(var)
+        request ccu StartActionAt(var)
         return 1(true)
     else:
         return 0(false) // not authentic
 ```
 
-### [ ] FPS (Flight Plan Server) - Источник полётного задания
+### [x] FPS (Flight Plan Server) - Источник полётного задания
 ```
 fps -> communication
 pub  1. start extinguishing at A
