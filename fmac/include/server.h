@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FMAC.edl.h"
-
+#include "app_connector.h"
 #include "fmac_actions.h"
 #include <coresrv/sl/sl_api.h>
 
@@ -10,7 +10,7 @@ class Server
 public:
     Server();
     ~Server() = default;
-    int Run();
+    int Run(AppConnectorPtr connector);
 
 private:
     ffd_FMAC_entity_req m_req {}; 

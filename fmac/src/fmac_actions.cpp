@@ -25,7 +25,9 @@ StartAtImpl(struct ffd_FMACActions* self,
   std::cerr << connections::FMAC
       << ": Started StartAt(" << req->task << ")" << std::endl;
   if (req->task == authenticated_task) {
-    impl->handler->StartAt();
+
+    impl->handler->StartAt(req->task);
+
     std::cerr << connections::FMAC
       << ": Stopped  StartAt" << std::endl;
       res->result = 1;
@@ -35,9 +37,9 @@ StartAtImpl(struct ffd_FMACActions* self,
   return NK_EOK;
 }
 
-ffd_FMACActions *FMACActionsHandler::CreateImpl()
+ffd_FMACActions *FMACActionsHandler::CreateImpl(AppConnectorPtr connector)
 {
-    static FMACActionsHandler _handler;
+    static FMACActionsHandler _handler(connector);
     static FMACActionsHandlerImpl ops = {};
     static ffd_FMACActions impl = {.ops = &ops};
 
@@ -47,14 +49,16 @@ ffd_FMACActions *FMACActionsHandler::CreateImpl()
   return &impl;
 }
 
-//FMACActionsHandler::FMACActionsHandler(rtl_uint32_t coordinates)
-//{}
+FMACActionsHandler::FMACActionsHandler(
+        AppConnectorPtr connector)
+    : appCon(connector)
+{}
 
-void FMACActionsHandler::StartAt()
+void FMACActionsHandler::StartAt(rtl_uint32_t task)
 {
-    //fmac takes 5 seconds
-    // ccu
     // eaic
+    appCon->StartActionAtEAIC(task);
+    // ccu
+    appCon->StartActionAtCCU(task);
     std::cerr << "StartAt" << std::endl;
-    //std::this_thread::sleep_for(5s);
 }

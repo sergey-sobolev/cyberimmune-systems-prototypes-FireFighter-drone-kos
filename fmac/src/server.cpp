@@ -22,7 +22,7 @@ Server::Server()
 }
 
 int
-Server::Run()
+Server::Run(AppConnectorPtr connector)
 {
   ServiceId iid;
   NkKosTransport transport;
@@ -42,7 +42,7 @@ Server::Run()
 
   ffd_FMACActions_component component;
   ffd_FMACActions_component_init(
-    &component, FMACActionsHandler::CreateImpl());
+    &component, FMACActionsHandler::CreateImpl(connector));
 
   ffd_FMAC_entity entity;
   ffd_FMAC_entity_init(&entity, &component);
