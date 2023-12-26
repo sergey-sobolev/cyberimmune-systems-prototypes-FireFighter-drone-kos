@@ -1,54 +1,40 @@
+#include "server.h"
+
+#include "app_connector.h"
+#include "ccu_actions.h"
 #include <connections.h>
 #include <iostream>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-#include <coresrv/nk/transport-kos.h>
-#include <coresrv/sl/sl_api.h>
+#include <sys/mount.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
-#include <ffd/AggregationCoordinates.idl.h>
-
-#include <assert.h>
-
-const static std::string me = connections::CCU;
-
-int
-main(void)
+int main(void)
 {
-  NkKosTransport transport;
-  struct ffd_AggregationCoordinates_proxy proxy;
-  int i;
+    std::cerr << connections::CCU << ": started" << std::endl;
 
-  std::cerr << me << ": started" << std::endl;
-
-  Handle handle = ServiceLocatorConnect(connections::Aggregation);
-  assert(handle != INVALID_HANDLE);
-
-  NkKosTransport_Init(&transport, handle, NK_NULL, 0);
-
-  nk_iid_t riid =
-    ServiceLocatorGetRiid(handle, "AggregationCoordinates.coordinates");
-  assert(riid != INVALID_RIID);
-
-  ffd_AggregationCoordinates_proxy_init(&proxy, &transport.base, riid);
-
-  ffd_AggregationCoordinates_Get_req req;
-  ffd_AggregationCoordinates_Get_res res;
-
-  while (true) {
-    if (ffd_AggregationCoordinates_Get(&proxy.base, &req, NULL, &res, NULL) ==
-        rcOk) {
-      std::cerr << me << " -> " << connections::Aggregation
-                << ": coordinates(), result: " << (int)res.coordinates << std::endl;
-    } else {
-      std::cerr << "Failed to call ffd.AggregationCoordinates.coordinates()"
-                << std::endl;
+    auto appCon = std::make_shared<AppConnector>();
+    if (!appCon->ConnectToAggregation()) {
+      std::cerr << connections::CCU << ": appCon->Connect to Aggregation failed" << std::endl;
     }
-    sleep(1);
-  }
-  std::cerr << me << ": stopped" << std::endl;
+    if (!appCon->ConnectToCommunication()) {
+      std::cerr << connections::CCU << ": appCon->Connect to Communication failed" << std::endl;
+    }
+    if (!appCon->ConnectToExtinguishing()) {
+      std::cerr << connections::CCU << ": appCon->Connect to Extinguishing failed" << std::endl;
+    }
+    if (!appCon->ConnectToMovement()) {
+      std::cerr << connections::CCU << ": appCon->Connect to Movement failed" << std::endl;
+    }
+    if (!appCon->ConnectToSituation()) {
+      std::cerr << connections::CCU << ": appCon->Connect to Situation failed" << std::endl;
+    }
 
-  return EXIT_SUCCESS;
+    Server server;
+    auto retCode = server.Run(appCon);
+
+    std::cerr << connections::CCU << ": stoped. Exit code = " << retCode
+           << std::endl;
+
+    return retCode;
 }
