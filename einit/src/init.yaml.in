@@ -48,9 +48,9 @@ entities:
 - name: ffd.FMAC
   connections:
   - target: ffd.CCU
-    id: CCU
+    id: ccu
   - target: ffd.EAIC
-    id: EAIC
+    id: eaic
 @INIT_FMAC_ENTITY_CONNECTIONS+@
 
 - name: ffd.Movement
