@@ -1,5 +1,5 @@
 component ffd.CCUActions
 
 endpoints {
-    coordinates: ffd.CCUActions
+    actions: ffd.CCUActions
 }
