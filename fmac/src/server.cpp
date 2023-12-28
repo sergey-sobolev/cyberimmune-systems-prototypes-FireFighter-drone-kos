@@ -22,7 +22,7 @@ Server::Server()
 }
 
 int
-Server::Run(AppConnectorPtr connector)
+Server::Run(AppConnectorPtr &connector)
 {
   ServiceId iid;
   NkKosTransport transport;

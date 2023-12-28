@@ -1,7 +1,7 @@
 #pragma once
 
-#include "i_eaicactionsreader.h"
-#include "i_ccuactionsreader.h"
+//#include "i_eaicactionsreader.h"
+//#include "i_ccuactionsreader.h"
 
 #include <EAICActions.idl.h>
 #include <CCUActions.idl.h>
@@ -25,7 +25,8 @@ public:
     bool StartActionAtCCU(rtl_uint32_t task);
 
 private:
-    NkKosTransport m_transport;
+    NkKosTransport m_eaicTransport;
+    NkKosTransport m_ccuTransport;
     ffd_EAICActions_proxy m_eaicActionsProxy;
     ffd_CCUActions_proxy m_ccuActionsProxy;
 };

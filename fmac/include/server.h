@@ -10,7 +10,7 @@ class Server
 public:
     Server();
     ~Server() = default;
-    int Run(AppConnectorPtr connector);
+    int Run(AppConnectorPtr &connector);
 
 private:
     ffd_FMAC_entity_req m_req {}; 

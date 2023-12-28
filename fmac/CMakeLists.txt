@@ -22,6 +22,8 @@ add_executable (
 
 add_dependencies (
     FMAC
+    ccu_edl
+    eaic_edl
     fmac_edl)
 
 target_include_directories (

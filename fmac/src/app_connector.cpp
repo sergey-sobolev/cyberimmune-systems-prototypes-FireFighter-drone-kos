@@ -18,7 +18,7 @@ bool AppConnector::ConnectToEAIC()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_eaicTransport, handle, NK_NULL, 0);
 
 
     {
@@ -34,7 +34,7 @@ bool AppConnector::ConnectToEAIC()
                       << std::endl;
             return false;
         }
-        ffd_EAICActions_proxy_init(&m_eaicActionsProxy, &m_transport.base, riid);
+        ffd_EAICActions_proxy_init(&m_eaicActionsProxy, &m_eaicTransport.base, riid);
     }
 
     return true;
@@ -53,7 +53,7 @@ bool AppConnector::ConnectToCCU()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_ccuTransport, handle, NK_NULL, 0);
 
 
     {
@@ -69,18 +69,18 @@ bool AppConnector::ConnectToCCU()
                       << std::endl;
             return false;
         }
-        ffd_CCUActions_proxy_init(&m_ccuActionsProxy, &m_transport.base, riid);
+        ffd_CCUActions_proxy_init(&m_ccuActionsProxy, &m_ccuTransport.base, riid);
     }
 
     return true;
 }
-
 
 bool AppConnector::StartActionAtEAIC(rtl_uint32_t _task)
 {
     ffd_EAICActions_StartActionAt_req req {};
     ffd_EAICActions_StartActionAt_res res {};
     req.task = _task;
+    std::cerr << "AppConnector::StartActionAtEAIC" << std::endl;
     auto code = ffd_EAICActions_StartActionAt(
         &m_eaicActionsProxy.base, &req, NULL, &res, NULL);
     if (code == NK_EOK)
@@ -92,9 +92,6 @@ bool AppConnector::StartActionAtEAIC(rtl_uint32_t _task)
          std::cerr << connections::FMAC << " -> " << connections::EAIC
                 << ": StartActionAt() - FAILED" << std::endl;
     }
-    //if (res.result == 0) { // not authenticated, 0 = false
-    //    return false;
-    //}
     return code == NK_EOK;
 }
 
@@ -108,15 +105,13 @@ bool AppConnector::StartActionAtCCU(rtl_uint32_t _task)
     if (code == NK_EOK)
     {
         std::cerr << connections::FMAC << " -> " << connections::CCU
-                << ": StartActionAt()" << std::endl;
+                << ": AppConnector::StartActionAt()" << std::endl;
 
     } else {
          std::cerr << connections::FMAC << " -> " << connections::CCU
-                << ": StartActionAt() - FAILED" << std::endl;
+                << ": AppConnector::StartActionAt() - FAILED" << std::endl;
     }
-    //if (res.result == 0) { // not authenticated, 0 = false
-    //    return false;
-    //}
+
     return code == NK_EOK;
 }
 

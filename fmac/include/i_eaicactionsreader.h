@@ -8,7 +8,7 @@ struct IEAICActionsReader
 {
     virtual ~IEAICActionsReader() = default;
 
-    virtual bool StartActionAt(rtl_uint32_t task) = 0;
+    virtual bool StartActionAtEAIC(rtl_uint32_t task) = 0;
 };
 
 using IEAICActionsReaderPtr = std::shared_ptr<IEAICActionsReader>;
