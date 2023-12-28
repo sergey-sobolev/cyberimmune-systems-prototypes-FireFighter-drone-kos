@@ -22,7 +22,7 @@ public:
     bool StartAt(rtl_uint32_t task) override;
 
 private:
-    NkKosTransport m_transport;
+    NkKosTransport m_fmacTransport;
     ffd_FMACActions_proxy m_fmacActionsProxy;
 };
 

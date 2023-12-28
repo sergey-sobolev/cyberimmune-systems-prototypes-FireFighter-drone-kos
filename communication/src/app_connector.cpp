@@ -18,7 +18,7 @@ bool AppConnector::ConnectToFMAC()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_fmacTransport, handle, NK_NULL, 0);
 
 
     {
@@ -34,7 +34,7 @@ bool AppConnector::ConnectToFMAC()
                       << std::endl;
             return false;
         }
-        ffd_FMACActions_proxy_init(&m_fmacActionsProxy, &m_transport.base, riid);
+        ffd_FMACActions_proxy_init(&m_fmacActionsProxy, &m_fmacTransport.base, riid);
     }
 
     return true;
