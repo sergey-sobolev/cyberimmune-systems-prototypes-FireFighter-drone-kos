@@ -161,5 +161,5 @@ audit profile trace = {
     }
 }
 // We assign the level of the audit profile used by default.
-audit default = trace 1
+audit default = trace 2
 
