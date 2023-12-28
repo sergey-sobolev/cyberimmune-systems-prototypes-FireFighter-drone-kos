@@ -59,6 +59,16 @@ response src = ffd.Aggregation, dst = ffd.CCU
     grant()
 }
 
+request src = ffd.CCU, dst = ffd.Communication
+{
+    grant()
+}
+
+response src = ffd.Communication, dst = ffd.CCU
+{
+    grant()
+}
+
 request src = ffd.CCU, dst = ffd.Extinguishing
 {
     grant()
