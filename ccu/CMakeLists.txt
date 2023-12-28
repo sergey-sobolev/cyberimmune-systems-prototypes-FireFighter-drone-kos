@@ -23,6 +23,10 @@ add_executable (
 add_dependencies (
     CCU
     aggregation_idl
+    communication_idl
+    extinguishing_idl
+    movement_idl
+    situation_idl
     ccu_edl)
 
 target_include_directories (

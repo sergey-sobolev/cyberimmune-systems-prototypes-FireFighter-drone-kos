@@ -18,7 +18,7 @@ bool AppConnector::ConnectToAggregation()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_aggregationTransport, handle, NK_NULL, 0);
 
 
     {
@@ -34,7 +34,7 @@ bool AppConnector::ConnectToAggregation()
                       << std::endl;
             return false;
         }
-        ffd_AggregationCoordinates_proxy_init(&m_aggregationCoordinatesProxy, &m_transport.base, riid);
+        ffd_AggregationCoordinates_proxy_init(&m_aggregationCoordinatesProxy, &m_aggregationTransport.base, riid);
     }
 
     return true;
@@ -53,7 +53,7 @@ bool AppConnector::ConnectToCommunication()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_communicationTransport, handle, NK_NULL, 0);
 
 
     {
@@ -69,7 +69,7 @@ bool AppConnector::ConnectToCommunication()
                       << std::endl;
             return false;
         }
-        ffd_CommunicationOutside_proxy_init(&m_communicationOutsideProxy, &m_transport.base, riid);
+        ffd_CommunicationOutside_proxy_init(&m_communicationOutsideProxy, &m_communicationTransport.base, riid);
     }
 
     return true;
@@ -88,7 +88,7 @@ bool AppConnector::ConnectToExtinguishing()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_extinguishingTransport, handle, NK_NULL, 0);
 
 
     {
@@ -104,7 +104,7 @@ bool AppConnector::ConnectToExtinguishing()
                       << std::endl;
             return false;
         }
-        ffd_ExtinguishingActions_proxy_init(&m_extinguishingActionsProxy, &m_transport.base, riid);
+        ffd_ExtinguishingActions_proxy_init(&m_extinguishingActionsProxy, &m_extinguishingTransport.base, riid);
     }
 
     return true;
@@ -123,7 +123,7 @@ bool AppConnector::ConnectToMovement()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_movementTransport, handle, NK_NULL, 0);
 
 
     {
@@ -139,7 +139,7 @@ bool AppConnector::ConnectToMovement()
                       << std::endl;
             return false;
         }
-        ffd_MovementActions_proxy_init(&m_movementActionsProxy, &m_transport.base, riid);
+        ffd_MovementActions_proxy_init(&m_movementActionsProxy, &m_movementTransport.base, riid);
     }
 
     return true;
@@ -158,7 +158,7 @@ bool AppConnector::ConnectToSituation()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_situationTransport, handle, NK_NULL, 0);
 
 
     {
@@ -174,7 +174,7 @@ bool AppConnector::ConnectToSituation()
                       << std::endl;
             return false;
         }
-        ffd_SituationActions_proxy_init(&m_situationActionsProxy, &m_transport.base, riid);
+        ffd_SituationActions_proxy_init(&m_situationActionsProxy, &m_situationTransport.base, riid);
     }
 
     return true;
@@ -228,11 +228,11 @@ bool AppConnector::StartActionExtinguishing()
     if (code == NK_EOK)
     {
         std::cerr << connections::CCU << " -> " << connections::Extinguishing
-                << ": StartActionAt()" << std::endl;
+                << ": StartAction()" << std::endl;
 
     } else {
          std::cerr << connections::CCU << " -> " << connections::Extinguishing
-                << ": StartActionAt() - FAILED" << std::endl;
+                << ": StartAction() - FAILED" << std::endl;
     }
     return code == NK_EOK;
 }

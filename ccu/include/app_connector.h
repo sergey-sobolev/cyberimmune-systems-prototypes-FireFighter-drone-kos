@@ -31,9 +31,16 @@ public:
     bool StopActionExtinguishing();
     bool MoveToMovement(rtl_uint32_t _task);
     bool ActionInProgressSituation();
+    bool started = false;
+    rtl_uint32_t task;
 
 private:
-    NkKosTransport m_transport;
+    NkKosTransport m_aggregationTransport;
+    NkKosTransport m_communicationTransport;
+    NkKosTransport m_extinguishingTransport;
+    NkKosTransport m_movementTransport;
+    NkKosTransport m_situationTransport;
+
     ffd_AggregationCoordinates_proxy m_aggregationCoordinatesProxy;
     ffd_CommunicationOutside_proxy m_communicationOutsideProxy;
     ffd_ExtinguishingActions_proxy m_extinguishingActionsProxy;

@@ -1,6 +1,5 @@
 #include "ccu_actions.h"
 #include <connections.h>
-#include <iostream>
 
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -20,20 +19,20 @@ StartActionAtImpl(struct ffd_CCUActions* self,
          ffd_CCUActions_StartActionAt_res* res,
          __rtl_unused nk_arena* res_arena)
 {
-  unsigned int authenticated_task = 1;
-  CCUActionsHandlerImpl* impl = (CCUActionsHandlerImpl*)self;
-  std::cerr << connections::CCU
-      << ": Started StartActionAt(" << req->task << ")" << std::endl;
-  if (req->task == authenticated_task) {
+  auto impl = self != nullptr
+                ? static_cast<const CCUActionsHandlerImpl*>(self->ops)
+                : nullptr;
+  if (impl == nullptr) {
+    return NK_ENOENT;
+  }
 
-    //impl->handler->StartActionAt(req->task);
+  std::cerr << connections::CCU
+      << ": Started StartActionAt(" << (int) req->task << ")" << std::endl;
+
+    impl->handler->StartActionAt(req->task);
 
     std::cerr << connections::CCU
       << ": Stopped  StartActionAt" << std::endl;
-      //res->result = 1;
-  } else {
-      //res->result = 0;
-  }
   return NK_EOK;
 }
 
@@ -44,20 +43,21 @@ StartedAtImpl(struct ffd_CCUActions* self,
          ffd_CCUActions_StartedAt_res* res,
          __rtl_unused nk_arena* res_arena)
 {
-  unsigned int authenticated_task = 1;
-  CCUActionsHandlerImpl* impl = (CCUActionsHandlerImpl*)self;
+  auto impl = self != nullptr
+                ? static_cast<const CCUActionsHandlerImpl*>(self->ops)
+                : nullptr;
+  if (impl == nullptr) {
+    return NK_ENOENT;
+  }
+
+
   std::cerr << connections::CCU
       << ": Started StartAt(" << req->task << ")" << std::endl;
-  if (req->task == authenticated_task) {
 
-    //impl->handler->StartAt(req->task);
+    impl->handler->StartedAt(req->task);
 
     std::cerr << connections::CCU
       << ": Stopped  StartedAt" << std::endl;
-      //res->result = 1;
-  } else {
-      //res->result = 0;
-  }
   return NK_EOK;
 }
 
@@ -79,11 +79,20 @@ CCUActionsHandler::CCUActionsHandler(
     : appCon(connector)
 {}
 
-void CCUActionsHandler::StartedAt(rtl_uint32_t task)
+void CCUActionsHandler::StartActionAt(rtl_uint32_t _task)
 {
-    // eaic
-    //appCon->StartActionAtEAIC(task);
-    // ccu
-    //appCon->StartActionAtCCU(task);
-    std::cerr << "StartedAt" << std::endl;
+    // aggregation
+    appCon->GetAggregation();
+    // movement
+    appCon->MoveToMovement(_task);
+    // extinguishing
+    appCon->StartActionExtinguishing();
+
+    appCon->started = true;
+    appCon->task = _task;
+}
+
+void CCUActionsHandler::StartedAt(rtl_uint32_t _task)
+{
+    appCon->StartedAtCommunication(_task);
 }

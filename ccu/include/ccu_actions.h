@@ -2,6 +2,7 @@
 
 #include "app_connector.h"
 #include <CCU.edl.h>
+#include <iostream>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
