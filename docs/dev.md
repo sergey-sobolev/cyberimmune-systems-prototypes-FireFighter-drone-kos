@@ -419,3 +419,13 @@ Day 11 Dec 25
 Day 12 Dec 26
 - [x] fps has been added
 
+Day 13 Dec 27
+- [x] fighting with bugs
+
+Day 14 Dec 28
+- [x] first successful overall run
+- [x] first run on KOS
+
+- [ ] figre out how to deal with MAC issue on KOS
+- [ ] improve logic
+- [ ] add GPIO logic with leds
