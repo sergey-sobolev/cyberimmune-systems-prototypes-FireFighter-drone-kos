@@ -9,8 +9,8 @@
 
 #include <memory>
 
-class AppConnector :
-    public ipc::INavigationCoordinatesReader
+class AppConnector //:
+    //public ipc::INavigationCoordinatesReader
 {
 public:
     AppConnector() = default;
@@ -19,10 +19,10 @@ public:
     bool Connect();
 
     // Navigation
-    bool Get() override;
+    bool Get();
 
 private:
-    NkKosTransport m_transport;
+    NkKosTransport m_navigationTransport;
     ffd_NavigationCoordinates_proxy m_navigationCoordinatesProxy;
 };
 

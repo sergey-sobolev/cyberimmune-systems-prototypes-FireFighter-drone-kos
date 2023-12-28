@@ -17,7 +17,7 @@ bool AppConnector::Connect()
 
         return false;
     }
-    NkKosTransport_Init(&m_transport, handle, NK_NULL, 0);
+    NkKosTransport_Init(&m_navigationTransport, handle, NK_NULL, 0);
 
 
     {
@@ -32,7 +32,7 @@ bool AppConnector::Connect()
                       << std::endl;
             return false;
         }
-        ffd_NavigationCoordinates_proxy_init(&m_navigationCoordinatesProxy, &m_transport.base, riid);
+        ffd_NavigationCoordinates_proxy_init(&m_navigationCoordinatesProxy, &m_navigationTransport.base, riid);
     }
 
     return true;

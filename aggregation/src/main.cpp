@@ -19,7 +19,7 @@ Run(AppConnectorPtr connector)
 
   while (1) {
     connector->Get();
-    std::this_thread::sleep_for(1s);
+    std::this_thread::sleep_for(10s);
   }
 }
 
