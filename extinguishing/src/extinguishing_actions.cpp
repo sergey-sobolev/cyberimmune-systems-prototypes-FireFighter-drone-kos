@@ -22,11 +22,17 @@ StartActionImpl(struct ffd_ExtinguishingActions* self,
          __rtl_unused ffd_ExtinguishingActions_StartAction_res* res,
          __rtl_unused nk_arena* res_arena)
 {
-  ExtinguishingActionsHandlerImpl* impl = (ExtinguishingActionsHandlerImpl*)self;
-  std::cout << connections::Extinguishing
+   auto impl = self != nullptr
+                 ? static_cast<const ExtinguishingActionsHandlerImpl*>(self->ops)
+                 : nullptr;
+   if (impl == nullptr) {
+     return NK_ENOENT;
+   }
+
+  std::cerr << connections::Extinguishing
       << ": Started StartAction"  << std::endl;
   impl->handler->StartAction();
-  std::cout << connections::Extinguishing
+  std::cerr << connections::Extinguishing
       << ": Stopped StartAction" << std::endl;
 
   return NK_EOK;
@@ -39,11 +45,16 @@ StopActionImpl(struct ffd_ExtinguishingActions* self,
          __rtl_unused ffd_ExtinguishingActions_StopAction_res* res,
          __rtl_unused nk_arena* res_arena)
 {
-  ExtinguishingActionsHandlerImpl* impl = (ExtinguishingActionsHandlerImpl*)self;
-  std::cout << connections::Extinguishing
+    auto impl = self != nullptr
+                  ? static_cast<const ExtinguishingActionsHandlerImpl*>(self->ops)
+                  : nullptr;
+    if (impl == nullptr) {
+      return NK_ENOENT;
+    }
+  std::cerr << connections::Extinguishing
       << ": Started StopAction" << std::endl;
   impl->handler->StopAction();
-  std::cout << connections::Extinguishing
+  std::cerr << connections::Extinguishing
       << ": Stopped StopAction" << std::endl;
 
   return NK_EOK;
@@ -51,13 +62,13 @@ StopActionImpl(struct ffd_ExtinguishingActions* self,
 
 ffd_ExtinguishingActions *ExtinguishingActionsHandler::CreateImpl()
 {
-    //static ExtinguishingActionsHandler _handler();
+    static ExtinguishingActionsHandler _handler;
     static ExtinguishingActionsHandlerImpl ops = {};
     static ffd_ExtinguishingActions impl = {.ops = &ops};
 
     ops.StartAction = StartActionImpl;
     ops.StopAction = StopActionImpl;
-    //ops.handler = &_handler;
+    ops.handler = &_handler;
 
   return &impl;
 }
