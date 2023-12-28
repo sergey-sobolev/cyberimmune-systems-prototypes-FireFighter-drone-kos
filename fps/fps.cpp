@@ -100,9 +100,9 @@ private:
             if (response.status.code != 200) {
                 mg_printf(conn, "<p>Task %s is not authentic, not able to start</p>\r\n", task_.c_str());
                 mg_printf(conn, "</body></html>\n");
-                tasks.push_back({ task, "not authentic, not able to start" });
+                tasks.push_back({ task_, "not authentic, not able to start" });
                 start_send = false;
-                task = "";
+                task_ = "";
                 return true;
             }
           } catch (const exception& e) {
