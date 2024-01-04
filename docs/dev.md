@@ -5,6 +5,7 @@
 - [Protocol](#Protocol)
 - [Logic](#logic-from-plantuml)
 - [Logic with pseudocode](#logic-with-pseudocode)
+- [Breadboard](#breadboard)
 - [Dev Plan log](#dev-plan-log)
 
 ## Terms and progress:
@@ -371,6 +372,12 @@ public ActionInProgress:
     else:
         return 0(false)
 ```
+
+## Breadboard
+![](./kos-lights_bb.png)
+- Two green led lamps (FYL-5013GD)
+- Two 91 Ohm resistors (EK-R24 0.25W)
+
 ## Dev Plan log:
 Day 1 Dec 14
 - Reading KOS docs and experimenting
@@ -426,6 +433,15 @@ Day 14 Dec 28
 - [x] first successful overall run
 - [x] first run on KOS
 
-- [ ] figre out how to deal with MAC issue on KOS
+Day 15 Dec 
+- [x] figre out how to deal with MAC issue on KOS
+
+Day 15 Jan 03
+- [x] tested GPIO logic
+- [x] created breadboard with leds and resistors and tested with KOS
+
+Day 16 Jan 04
+- [x] documented breadboard logic
+
 - [ ] improve logic
 - [ ] add GPIO logic with leds
