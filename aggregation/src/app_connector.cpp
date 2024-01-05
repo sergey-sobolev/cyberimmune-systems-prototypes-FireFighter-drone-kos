@@ -21,12 +21,12 @@ AppConnector::Connect()
 
   {
     nk_iid_t riid =
-      ServiceLocatorGetRiid(handle, "NavigationCoordinates.coordinates");
+      ServiceLocatorGetRiid(handle, connections::NavigationService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::Aggregation
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "NavigationCoordinates.coordinates" // ControlConnectionPoint
+                << connections::NavigationService // ControlConnectionPoint
                 << std::endl;
       return false;
     }

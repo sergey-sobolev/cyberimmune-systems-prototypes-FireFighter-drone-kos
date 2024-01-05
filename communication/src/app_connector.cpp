@@ -20,12 +20,12 @@ AppConnector::ConnectToFMAC()
   NkKosTransport_Init(&m_fmacTransport, handle, NK_NULL, 0);
 
   {
-    nk_iid_t riid = ServiceLocatorGetRiid(handle, "FMACActions.actions");
+    nk_iid_t riid = ServiceLocatorGetRiid(handle, connections::FMACService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::Communication << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "FMACActions.actions" << std::endl;
+                << connections::FMACService << std::endl;
       return false;
     }
     ffd_FMACActions_proxy_init(

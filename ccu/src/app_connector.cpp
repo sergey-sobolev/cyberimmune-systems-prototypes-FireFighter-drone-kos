@@ -21,12 +21,12 @@ AppConnector::ConnectToAggregation()
 
   {
     nk_iid_t riid =
-      ServiceLocatorGetRiid(handle, "AggregationCoordinates.coordinates");
+      ServiceLocatorGetRiid(handle, connections::AggregationService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::CCU << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "AggregationCoordinates.coordinates" << std::endl;
+                << connections::AggregationService << std::endl;
       return false;
     }
     ffd_AggregationCoordinates_proxy_init(
@@ -52,12 +52,12 @@ AppConnector::ConnectToCommunication()
 
   {
     nk_iid_t riid =
-      ServiceLocatorGetRiid(handle, "CommunicationOutside.startedat");
+      ServiceLocatorGetRiid(handle, connections::CommunicationService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::CCU << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "CommunicationOutside.startedat" << std::endl;
+                << connections::CommunicationService << std::endl;
       return false;
     }
     ffd_CommunicationOutside_proxy_init(
@@ -83,12 +83,12 @@ AppConnector::ConnectToExtinguishing()
 
   {
     nk_iid_t riid =
-      ServiceLocatorGetRiid(handle, "ExtinguishingActions.actions");
+      ServiceLocatorGetRiid(handle, connections::ExtinguishingService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::CCU << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "ExtinguishingActions.actions" << std::endl;
+                << connections::ExtinguishingService << std::endl;
       return false;
     }
     ffd_ExtinguishingActions_proxy_init(
@@ -113,12 +113,12 @@ AppConnector::ConnectToMovement()
   NkKosTransport_Init(&m_movementTransport, handle, NK_NULL, 0);
 
   {
-    nk_iid_t riid = ServiceLocatorGetRiid(handle, "MovementActions.actions");
+    nk_iid_t riid = ServiceLocatorGetRiid(handle, connections::MovementService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::CCU << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "MovementActions.actions" << std::endl;
+                << connections::MovementService << std::endl;
       return false;
     }
     ffd_MovementActions_proxy_init(
@@ -143,12 +143,12 @@ AppConnector::ConnectToSituation()
   NkKosTransport_Init(&m_situationTransport, handle, NK_NULL, 0);
 
   {
-    nk_iid_t riid = ServiceLocatorGetRiid(handle, "SituationActions.actions");
+    nk_iid_t riid = ServiceLocatorGetRiid(handle, connections::SituationService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::CCU << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "SituationActions.actions" << std::endl;
+                << connections::SituationService << std::endl;
       return false;
     }
     ffd_SituationActions_proxy_init(

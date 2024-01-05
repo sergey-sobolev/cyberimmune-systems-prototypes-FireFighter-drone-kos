@@ -20,12 +20,12 @@ AppConnector::ConnectToEAIC()
   NkKosTransport_Init(&m_eaicTransport, handle, NK_NULL, 0);
 
   {
-    nk_iid_t riid = ServiceLocatorGetRiid(handle, "EAICActions.actions");
+    nk_iid_t riid = ServiceLocatorGetRiid(handle, connections::EAICService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::FMAC << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "EAICActions.actions" << std::endl;
+                << connections::EAICService << std::endl;
       return false;
     }
     ffd_EAICActions_proxy_init(
@@ -50,12 +50,12 @@ AppConnector::ConnectToCCU()
   NkKosTransport_Init(&m_ccuTransport, handle, NK_NULL, 0);
 
   {
-    nk_iid_t riid = ServiceLocatorGetRiid(handle, "CCUActions.actions");
+    nk_iid_t riid = ServiceLocatorGetRiid(handle, connections::CCUService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::FMAC << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "CCUActions.actions" << std::endl;
+                << connections::CCUService << std::endl;
       return false;
     }
     ffd_CCUActions_proxy_init(&m_ccuActionsProxy, &m_ccuTransport.base, riid);

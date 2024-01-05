@@ -21,12 +21,12 @@ AppConnector::ConnectToAggregation()
 
   {
     nk_iid_t riid =
-      ServiceLocatorGetRiid(handle, "AggregationCoordinates.coordinates");
+      ServiceLocatorGetRiid(handle, connections::AggregationService);
     if (riid == INVALID_RIID) {
       std::cerr << connections::EAIC << " - "
                 << "Error: can`t get runtime implementation ID (RIID) of "
                    "interface '"
-                << "AggregationCoordinates.coordinates" << std::endl;
+                << connections::AggregationService << std::endl;
       return false;
     }
     ffd_AggregationCoordinates_proxy_init(
