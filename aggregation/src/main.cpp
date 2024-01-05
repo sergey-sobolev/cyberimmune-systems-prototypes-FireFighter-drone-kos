@@ -3,19 +3,19 @@
 #include "app_connector.h"
 
 #include "server.h"
+#include <chrono>
 #include <connections.h>
 #include <iostream>
 #include <memory>
-#include <thread>
-#include <chrono>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <thread>
 
 void
 Run(AppConnectorPtr connector)
 {
-    using namespace std::chrono_literals;
+  using namespace std::chrono_literals;
 
   while (1) {
     connector->Get();

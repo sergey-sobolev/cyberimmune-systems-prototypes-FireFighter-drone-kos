@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Movement.edl.h>
 #include "movement_actions.h"
+#include <Movement.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -41,8 +41,8 @@ Server::Run()
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
   ffd_MovementActions_component component;
-  ffd_MovementActions_component_init(
-    &component, MovementActionsHandler::CreateImpl());
+  ffd_MovementActions_component_init(&component,
+                                     MovementActionsHandler::CreateImpl());
 
   ffd_Movement_entity entity;
   ffd_Movement_entity_init(&entity, &component);

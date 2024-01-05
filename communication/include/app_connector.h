@@ -2,28 +2,27 @@
 
 #include "i_fmacactionsreader.h"
 
-#include <FMACActions.idl.h>
 #include "HTTPRequest.h"
+#include <FMACActions.idl.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
 #include <memory>
 
-class AppConnector :
-    public ipc::IFMACActionsReader
+class AppConnector : public ipc::IFMACActionsReader
 {
 public:
-    AppConnector() = default;
+  AppConnector() = default;
 
-    // Open IPC connection
-    bool ConnectToFMAC();
+  // Open IPC connection
+  bool ConnectToFMAC();
 
-    // FMAC
-    bool StartAt(rtl_uint32_t task) override;
+  // FMAC
+  bool StartAt(rtl_uint32_t task) override;
 
 private:
-    NkKosTransport m_fmacTransport;
-    ffd_FMACActions_proxy m_fmacActionsProxy;
+  NkKosTransport m_fmacTransport;
+  ffd_FMACActions_proxy m_fmacActionsProxy;
 };
 
 using AppConnectorPtr = std::shared_ptr<AppConnector>;

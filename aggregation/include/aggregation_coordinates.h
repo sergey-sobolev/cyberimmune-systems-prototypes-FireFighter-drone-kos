@@ -6,13 +6,13 @@
 
 class AggregationCoordinatesHandler : ffd_AggregationCoordinates_ops
 {
-    public:
-        static ffd_AggregationCoordinates *CreateImpl(rtl_uint32_t coordinates);
-        rtl_uint32_t Coordinates();
+public:
+  static ffd_AggregationCoordinates* CreateImpl(rtl_uint32_t coordinates);
+  rtl_uint32_t Coordinates();
 
-        AggregationCoordinatesHandler() = delete;
-        ~AggregationCoordinatesHandler() = default;
+  AggregationCoordinatesHandler() = delete;
+  ~AggregationCoordinatesHandler() = default;
 
-    private:
-        AggregationCoordinatesHandler(rtl_uint32_t coordinates);
+private:
+  AggregationCoordinatesHandler(rtl_uint32_t coordinates);
 };

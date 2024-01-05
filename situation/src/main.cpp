@@ -8,15 +8,16 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int main(void)
+int
+main(void)
 {
-    std::cerr << connections::Situation << ": started" << std::endl;
+  std::cerr << connections::Situation << ": started" << std::endl;
 
-    Server server;
-    auto retCode = server.Run();
+  Server server;
+  auto retCode = server.Run();
 
-    std::cerr << connections::Situation << ": stoped. Exit code = " << retCode
-           << std::endl;
+  std::cerr << connections::Situation << ": stoped. Exit code = " << retCode
+            << std::endl;
 
-    return retCode;
+  return retCode;
 }

@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Extinguishing.edl.h>
 #include "extinguishing_actions.h"
+#include <Extinguishing.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>

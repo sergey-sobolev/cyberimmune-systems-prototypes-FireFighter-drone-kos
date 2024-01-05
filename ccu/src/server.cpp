@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <CCU.edl.h>
 #include "ccu_actions.h"
+#include <CCU.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -27,8 +27,7 @@ Server::Run(AppConnectorPtr connector)
   ServiceId iid;
   NkKosTransport transport;
 
-  auto handleClients =
-    ServiceLocatorRegister(connections::CCU, NULL, 0, &iid);
+  auto handleClients = ServiceLocatorRegister(connections::CCU, NULL, 0, &iid);
   if (handleClients == INVALID_HANDLE) {
     std::cerr
       << connections::CCU
@@ -41,8 +40,8 @@ Server::Run(AppConnectorPtr connector)
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
   ffd_CCUActions_component component;
-  ffd_CCUActions_component_init(
-    &component, CCUActionsHandler::CreateImpl(connector));
+  ffd_CCUActions_component_init(&component,
+                                CCUActionsHandler::CreateImpl(connector));
 
   ffd_CCU_entity entity;
   ffd_CCU_entity_init(&entity, &component);

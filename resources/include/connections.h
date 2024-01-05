@@ -2,7 +2,6 @@
 
 namespace connections {
 
-
 constexpr const char* Aggregation = "aggregation";
 
 // eaic -> (aggregation) : 18. get_coordinates
@@ -16,32 +15,26 @@ constexpr const char* CCU = "ccu";
 
 // fmac --> (ccu) : 4. execute at val
 // asynchronous
-constexpr const char* CCUExecute =
-  "ffd.CCU.execute";
+constexpr const char* CCUExecute = "ffd.CCU.execute";
 
 // movement --> (ccu) : 13. done at val
 // synchronous
-constexpr const char* CCUDone =
-  "ffd.CCU.done";
-
+constexpr const char* CCUDone = "ffd.CCU.done";
 
 constexpr const char* Communication = "communication";
 
 // (fps) --> (communication) : 1. start at val\n(via http)
 // asynchronous
-constexpr const char* CommunicationStart =
-  "ffd.Communication.start";
+constexpr const char* CommunicationStart = "ffd.Communication.start";
 
 // ccu --> (communication) : 30. started at val
 // asynchronous
-constexpr const char* CommunicationStarted =
-  "ffd.Communication.started";
+constexpr const char* CommunicationStarted = "ffd.Communication.started";
 
 // fmac --> (communication) : not_authentic_task val
 // synchronous
 constexpr const char* CommunicationNotAuthenticTask =
   "ffd.Communication.not_authentic_task";
-
 
 constexpr const char* Extinguishing = "extinguishing";
 
@@ -53,42 +46,32 @@ constexpr const char* ExtinguishingStartAction =
 
 // ccu --> (extinguishing) : 27. stop_action
 // asynchronous
-constexpr const char* ExtinguishingStopAction =
-  "ffd.Extinguishing.stop_action";
-
+constexpr const char* ExtinguishingStopAction = "ffd.Extinguishing.stop_action";
 
 constexpr const char* EAIC = "eaic";
 
 // fmac --> (eaic) : 3. execute at val
 // synchronous
-constexpr const char* EAICExecute =
-  "ffd.EAIC.execute";
+constexpr const char* EAICExecute = "ffd.EAIC.execute";
 
 // extinguishing --> (eaic) : 15. confirm_action
 // synchronous
-constexpr const char* EAICConfirmAction =
-  "ffd.EAIC.confirm_action";
+constexpr const char* EAICConfirmAction = "ffd.EAIC.confirm_action";
 
 // extinguishing --> (eaic) : 28. stop_action
 // synchronous
-constexpr const char* EAICStopAction =
-  "ffd.EAIC.stop_action";
-
+constexpr const char* EAICStopAction = "ffd.EAIC.stop_action";
 
 constexpr const char* FMAC = "fmac";
 
 // communication --> (fmac) : 2. start at val
-constexpr const char* FMACStart =
-  "ffd.FMAC.start";
-
+constexpr const char* FMACStart = "ffd.FMAC.start";
 
 constexpr const char* Movement = "movement";
 // ccu --> (movement) : 11. move to val
 // asynchronous
 
-constexpr const char* MovementMove =
-  "ffd.Movement.move";
-
+constexpr const char* MovementMove = "ffd.Movement.move";
 
 constexpr const char* Navigation = "navigation";
 
@@ -98,7 +81,6 @@ constexpr const char* Navigation = "navigation";
 constexpr const char* NavigationGetCoordinates =
   "ffd.Navigation.get_coordinates";
 
-
 constexpr const char* Situation = "situation";
 
 // ccu --> (situation) : 22. is_action_running
@@ -106,6 +88,5 @@ constexpr const char* Situation = "situation";
 // synchronous
 constexpr const char* SituationIsActionRunning =
   "ffd.Situation.is_action_running";
-
 
 } // namespace connections

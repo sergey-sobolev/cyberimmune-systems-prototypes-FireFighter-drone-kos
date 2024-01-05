@@ -6,13 +6,13 @@
 
 class NavigationCoordinatesHandler : ffd_NavigationCoordinates_ops
 {
-    public:
-        static ffd_NavigationCoordinates *CreateImpl(rtl_uint32_t coordinates);
-        rtl_uint32_t Coordinates();
+public:
+  static ffd_NavigationCoordinates* CreateImpl(rtl_uint32_t coordinates);
+  rtl_uint32_t Coordinates();
 
-        NavigationCoordinatesHandler() = delete;
-        ~NavigationCoordinatesHandler() = default;
+  NavigationCoordinatesHandler() = delete;
+  ~NavigationCoordinatesHandler() = default;
 
-    private:
-        NavigationCoordinatesHandler(rtl_uint32_t coordinates);
+private:
+  NavigationCoordinatesHandler(rtl_uint32_t coordinates);
 };

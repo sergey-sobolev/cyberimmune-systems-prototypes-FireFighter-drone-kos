@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Navigation.edl.h>
 #include "navigation_coordinates.h"
+#include <Navigation.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>

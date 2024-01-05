@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <EAIC.edl.h>
 #include "eaic_actions.h"
+#include <EAIC.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -27,8 +27,7 @@ Server::Run(AppConnectorPtr connector)
   ServiceId iid;
   NkKosTransport transport;
 
-  auto handleClients =
-    ServiceLocatorRegister(connections::EAIC, NULL, 0, &iid);
+  auto handleClients = ServiceLocatorRegister(connections::EAIC, NULL, 0, &iid);
   if (handleClients == INVALID_HANDLE) {
     std::cerr
       << connections::EAIC
@@ -41,8 +40,8 @@ Server::Run(AppConnectorPtr connector)
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
   ffd_EAICActions_component component;
-  ffd_EAICActions_component_init(
-    &component, EAICActionsHandler::CreateImpl(connector));
+  ffd_EAICActions_component_init(&component,
+                                 EAICActionsHandler::CreateImpl(connector));
 
   ffd_EAIC_entity entity;
   ffd_EAIC_entity_init(&entity, &component);

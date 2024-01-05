@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Communication.edl.h>
 #include "communication_outside.h"
+#include <Communication.edl.h>
 #include <connections.h>
 
 #include <assert.h>

@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <FMAC.edl.h>
 #include "fmac_actions.h"
+#include <FMAC.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -22,13 +22,12 @@ Server::Server()
 }
 
 int
-Server::Run(AppConnectorPtr &connector)
+Server::Run(AppConnectorPtr& connector)
 {
   ServiceId iid;
   NkKosTransport transport;
 
-  auto handleClients =
-    ServiceLocatorRegister(connections::FMAC, NULL, 0, &iid);
+  auto handleClients = ServiceLocatorRegister(connections::FMAC, NULL, 0, &iid);
   if (handleClients == INVALID_HANDLE) {
     std::cerr
       << connections::FMAC
@@ -41,8 +40,8 @@ Server::Run(AppConnectorPtr &connector)
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
   ffd_FMACActions_component component;
-  ffd_FMACActions_component_init(
-    &component, FMACActionsHandler::CreateImpl(connector));
+  ffd_FMACActions_component_init(&component,
+                                 FMACActionsHandler::CreateImpl(connector));
 
   ffd_FMAC_entity entity;
   ffd_FMAC_entity_init(&entity, &component);

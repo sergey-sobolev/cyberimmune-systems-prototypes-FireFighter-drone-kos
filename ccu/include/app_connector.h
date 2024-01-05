@@ -11,41 +11,41 @@
 
 #include <memory>
 
-class AppConnector// :
-    //public ipc::IEAICActionsReader,
-    //public ipc::ICCUActionsReader
+class AppConnector // :
+                   // public ipc::IEAICActionsReader,
+                   // public ipc::ICCUActionsReader
 {
 public:
-    AppConnector() = default;
+  AppConnector() = default;
 
-    // Open IPC connection
-    bool ConnectToAggregation();
-    bool ConnectToCommunication();
-    bool ConnectToExtinguishing();
-    bool ConnectToMovement();
-    bool ConnectToSituation();
+  // Open IPC connection
+  bool ConnectToAggregation();
+  bool ConnectToCommunication();
+  bool ConnectToExtinguishing();
+  bool ConnectToMovement();
+  bool ConnectToSituation();
 
-    bool GetAggregation();
-    bool StartedAtCommunication(rtl_uint32_t _task);
-    bool StartActionExtinguishing();
-    bool StopActionExtinguishing();
-    bool MoveToMovement(rtl_uint32_t _task);
-    bool ActionInProgressSituation();
-    bool started = false;
-    rtl_uint32_t task;
+  bool GetAggregation();
+  bool StartedAtCommunication(rtl_uint32_t _task);
+  bool StartActionExtinguishing();
+  bool StopActionExtinguishing();
+  bool MoveToMovement(rtl_uint32_t _task);
+  bool ActionInProgressSituation();
+  bool started = false;
+  rtl_uint32_t task;
 
 private:
-    NkKosTransport m_aggregationTransport;
-    NkKosTransport m_communicationTransport;
-    NkKosTransport m_extinguishingTransport;
-    NkKosTransport m_movementTransport;
-    NkKosTransport m_situationTransport;
+  NkKosTransport m_aggregationTransport;
+  NkKosTransport m_communicationTransport;
+  NkKosTransport m_extinguishingTransport;
+  NkKosTransport m_movementTransport;
+  NkKosTransport m_situationTransport;
 
-    ffd_AggregationCoordinates_proxy m_aggregationCoordinatesProxy;
-    ffd_CommunicationOutside_proxy m_communicationOutsideProxy;
-    ffd_ExtinguishingActions_proxy m_extinguishingActionsProxy;
-    ffd_MovementActions_proxy m_movementActionsProxy;
-    ffd_SituationActions_proxy m_situationActionsProxy;
+  ffd_AggregationCoordinates_proxy m_aggregationCoordinatesProxy;
+  ffd_CommunicationOutside_proxy m_communicationOutsideProxy;
+  ffd_ExtinguishingActions_proxy m_extinguishingActionsProxy;
+  ffd_MovementActions_proxy m_movementActionsProxy;
+  ffd_SituationActions_proxy m_situationActionsProxy;
 };
 
 using AppConnectorPtr = std::shared_ptr<AppConnector>;

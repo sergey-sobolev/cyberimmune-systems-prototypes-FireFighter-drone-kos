@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Aggregation.edl.h>
 #include "aggregation_coordinates.h"
+#include <Aggregation.edl.h>
 #include <connections.h>
 
 #include <assert.h>

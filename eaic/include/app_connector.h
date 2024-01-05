@@ -11,21 +11,21 @@
 
 #include <memory>
 
-class AppConnector// :
-    //public ipc::IEAICActionsReader,
-    //public ipc::IEAICActionsReader
+class AppConnector // :
+                   // public ipc::IEAICActionsReader,
+                   // public ipc::IEAICActionsReader
 {
 public:
-    AppConnector() = default;
+  AppConnector() = default;
 
-    // Open IPC connection
-    bool ConnectToAggregation();
+  // Open IPC connection
+  bool ConnectToAggregation();
 
-    bool GetAggregation();
+  bool GetAggregation();
 
 private:
-    NkKosTransport m_aggregationTransport;
-    ffd_AggregationCoordinates_proxy m_aggregationCoordinatesProxy;
+  NkKosTransport m_aggregationTransport;
+  ffd_AggregationCoordinates_proxy m_aggregationCoordinatesProxy;
 };
 
 using AppConnectorPtr = std::shared_ptr<AppConnector>;

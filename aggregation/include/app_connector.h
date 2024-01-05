@@ -10,17 +10,17 @@
 class AppConnector
 {
 public:
-    AppConnector() = default;
+  AppConnector() = default;
 
-    // Open IPC connection
-    bool Connect();
+  // Open IPC connection
+  bool Connect();
 
-    // Navigation
-    bool Get();
+  // Navigation
+  bool Get();
 
 private:
-    NkKosTransport m_navigationTransport;
-    ffd_NavigationCoordinates_proxy m_navigationCoordinatesProxy;
+  NkKosTransport m_navigationTransport;
+  ffd_NavigationCoordinates_proxy m_navigationCoordinatesProxy;
 };
 
 using AppConnectorPtr = std::shared_ptr<AppConnector>;

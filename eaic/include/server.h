@@ -8,17 +8,16 @@
 class Server
 {
 public:
-    Server();
-    ~Server() = default;
-    int Run(AppConnectorPtr connector);
+  Server();
+  ~Server() = default;
+  int Run(AppConnectorPtr connector);
 
 private:
-    ffd_EAIC_entity_req m_req {}; 
-    ffd_EAIC_entity_res m_res {}; 
-    nk_arena m_reqArena;
-    nk_arena m_resArena;
+  ffd_EAIC_entity_req m_req{};
+  ffd_EAIC_entity_res m_res{};
+  nk_arena m_reqArena;
+  nk_arena m_resArena;
 
-    char m_reqBuffer[ffd_EAIC_entity_req_arena_size];
-    char m_resBuffer[ffd_EAIC_entity_res_arena_size];
+  char m_reqBuffer[ffd_EAIC_entity_req_arena_size];
+  char m_resBuffer[ffd_EAIC_entity_res_arena_size];
 };
-

@@ -5,8 +5,8 @@
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
 
-#include <Situation.edl.h>
 #include "situation_actions.h"
+#include <Situation.edl.h>
 #include <connections.h>
 #include <coresrv/nk/transport-kos.h>
 #include <coresrv/sl/sl_api.h>
@@ -42,8 +42,8 @@ Server::Run()
   NkKosTransport_Init(&transport, handleClients, NK_NULL, 0);
 
   ffd_SituationActions_component component;
-  ffd_SituationActions_component_init(
-    &component, SituationActionsHandler::CreateImpl());
+  ffd_SituationActions_component_init(&component,
+                                      SituationActionsHandler::CreateImpl());
 
   ffd_Situation_entity entity;
   ffd_Situation_entity_init(&entity, &component);

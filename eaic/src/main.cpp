@@ -9,20 +9,22 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int main(void)
+int
+main(void)
 {
-    std::cerr << connections::EAIC << ": started" << std::endl;
+  std::cerr << connections::EAIC << ": started" << std::endl;
 
-    auto appCon = std::make_shared<AppConnector>();
-    if (!appCon->ConnectToAggregation()) {
-      std::cerr << connections::EAIC << ": appCon->Connect to Aggregation failed" << std::endl;
-    }
+  auto appCon = std::make_shared<AppConnector>();
+  if (!appCon->ConnectToAggregation()) {
+    std::cerr << connections::EAIC << ": appCon->Connect to Aggregation failed"
+              << std::endl;
+  }
 
-    Server server;
-    auto retCode = server.Run(appCon);
+  Server server;
+  auto retCode = server.Run(appCon);
 
-    std::cerr << connections::EAIC << ": stoped. Exit code = " << retCode
-           << std::endl;
+  std::cerr << connections::EAIC << ": stoped. Exit code = " << retCode
+            << std::endl;
 
-    return retCode;
+  return retCode;
 }
