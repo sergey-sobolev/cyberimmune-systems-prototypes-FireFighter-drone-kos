@@ -1,7 +1,5 @@
 #pragma once
 
-#include "i_navigationcoordinatesreader.h"
-
 #include <NavigationCoordinates.idl.h>
 
 #include <coresrv/nk/transport-kos.h>
@@ -9,8 +7,7 @@
 
 #include <memory>
 
-class AppConnector //:
-    //public ipc::INavigationCoordinatesReader
+class AppConnector
 {
 public:
     AppConnector() = default;

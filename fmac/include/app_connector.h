@@ -1,8 +1,5 @@
 #pragma once
 
-//#include "i_eaicactionsreader.h"
-//#include "i_ccuactionsreader.h"
-
 #include <EAICActions.idl.h>
 #include <CCUActions.idl.h>
 #include <coresrv/nk/transport-kos.h>
@@ -10,9 +7,7 @@
 
 #include <memory>
 
-class AppConnector// :
-    //public ipc::IEAICActionsReader,
-    //public ipc::ICCUActionsReader
+class AppConnector
 {
 public:
     AppConnector() = default;
