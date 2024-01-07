@@ -11,14 +11,25 @@
 #include <thread>
 
 void
-Run(AppConnectorPtr connector)
+Run(AppConnectorPtr appCon)
 {
   using namespace std::chrono_literals;
 
   while (1) {
-    if (connector->started) {
-      connector->StartedAtCommunication(connector->task);
-      connector->started = false;
+    if (appCon->started) {
+      // aggregation
+      appCon->GetAggregation();
+      // movement
+      appCon->MoveToMovement(appCon->task);
+      // extinguishing start
+      appCon->StartActionExtinguishing();
+      // situation
+      appCon->ActionInProgressSituation();
+      // extinguishing stop
+      appCon->StopActionExtinguishing();
+      // communication started
+      appCon->StartedAtCommunication(appCon->task);
+      appCon->started = false;
     }
     std::this_thread::sleep_for(10s);
   }

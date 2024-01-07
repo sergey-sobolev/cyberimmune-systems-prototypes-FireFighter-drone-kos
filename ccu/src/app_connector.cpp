@@ -261,7 +261,7 @@ AppConnector::ActionInProgressSituation()
     &m_situationActionsProxy.base, &req, NULL, &res, NULL);
   if (code == NK_EOK) {
     std::cerr << connections::CCU << " -> " << connections::Situation
-              << ": ActionInProgress()" << std::endl;
+              << ": ActionInProgress(): response: " << (int)res.result << std::endl;
 
   } else {
     std::cerr << connections::CCU << " -> " << connections::Situation

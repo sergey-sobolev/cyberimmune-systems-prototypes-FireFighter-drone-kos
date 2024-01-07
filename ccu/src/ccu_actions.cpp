@@ -79,13 +79,6 @@ CCUActionsHandler::CCUActionsHandler(AppConnectorPtr connector)
 void
 CCUActionsHandler::StartActionAt(rtl_uint32_t _task)
 {
-  // aggregation
-  appCon->GetAggregation();
-  // movement
-  appCon->MoveToMovement(_task);
-  // extinguishing
-  appCon->StartActionExtinguishing();
-
   appCon->started = true;
   appCon->task = _task;
 }
