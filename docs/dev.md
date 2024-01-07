@@ -9,19 +9,20 @@
 - [Dev Plan log](#dev-plan-log)
 
 ## Terms and progress:
-- [ ] Aggregation - Комплексирование
-- [ ] CCU (Central control unit) - Центральная система управления
+- [x] Aggregation - Комплексирование
+- [x] CCU (Central control unit) - Центральная система управления
 - [x] Communication - Связь
-- [ ] Extinguishing - Процедура тушения
-- [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
+- [x] Extinguishing - Процедура тушения
+- [x] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 - [x] FMAC (Flight mission authenticity control) - Контроль аутентичности полётного задания
 - [x] FPS (Flight Plan Server) - Источник полётного задания
-- [ ] Movement control - Управление перемещением
-- [ ] Navigation system - Навигация GNSS + ИНС
-- [ ] Situation control - Контроль обстановки
+- [x] Movement control - Управление перемещением
+- [x] Navigation system - Навигация GNSS + ИНС
+- [x] Situation control - Контроль обстановки
 
 ## Interface
- - FPS is listening on 8081 port, so accessible via http://localhost:8081
+ - FPS is listening on 8080 port, so accessible via http://localhost:8080
+ - Communication is listening on 8081 and FPS IP is defined via CommunicationHost at resources/include/connections.h
 
 ## Communications:
  - all modules have public interfaces accessible via IPC (except FPS)
@@ -123,7 +124,7 @@ communication -> fps
 ```
 
 ## Logic with pseudocode:
-### [ ] Aggregation - Комплексирование
+### [x] Aggregation - Комплексирование
 ```
 aggregation -> navigation
 - pub  6. get coordinates
@@ -154,7 +155,7 @@ loop:
         save coordinates{var_gps, var_ins}
 ```
 
-### [ ] CCU (Central control unit) - Центральная система управления
+### [x] CCU (Central control unit) - Центральная система управления
 ```
 fmac -> ccu
 - sub  5. execute extinguishing at A
@@ -215,7 +216,7 @@ export StartedAt(var): // for ccu
     return 1(true) // or empty
 ```
 
-### [ ] Extinguishing - Процедура тушения
+### [x] Extinguishing - Процедура тушения
 ```
 ccu -> extinguishing
 - sub 14. start extinguish/fire
@@ -244,7 +245,7 @@ export StopAction(): // for ccu
     InAction = false;
 ```
 
-### [ ] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
+### [x] EAIC (extinguishing and ignition circuits controller) - Контроль активации цепей тушения и поджига
 ```
 fmac -> eaic
 - sub  4. execute extinguishing at A
@@ -324,7 +325,7 @@ listen // for commands and an interchange data with the communication
         send client not_authentic_task at val
 ```
 
-### [ ] Movement control - Управление перемещением
+### [x] Movement control - Управление перемещением
 ```
 ccu -> movement
 - sub 11. move to A
@@ -339,7 +340,7 @@ export movement MoveTo(val):
     return 1(true)
 ```
 
-### [ ] Navigation system - Навигация GNSS + ИНС
+### [x] Navigation system - Навигация GNSS + ИНС
 ```
 aggregation -> navigation
 - sub 6. get_coordinates
@@ -355,7 +356,7 @@ export navigation Get:
     return coordinates{var_gps, var_ins}
 ```
 
-### [ ] Situation control - Контроль обстановки
+### [x] Situation control - Контроль обстановки
 ```
 ccu -> situation
  24. check if algo is running
@@ -445,5 +446,11 @@ Day 15 Jan 03
 Day 16 Jan 04
 - [x] documented breadboard logic
 
-- [ ] improve logic
+Day 17 Jan 05
+- [x] improve logic
+
+Day 18 Jan 07
+- [x] improve logic
+- [x] communication host into resources/include/connections.h
+
 - [ ] add GPIO logic with leds
