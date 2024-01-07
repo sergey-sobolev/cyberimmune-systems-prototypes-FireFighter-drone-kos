@@ -187,11 +187,11 @@ AppConnector::StartedAtCommunication(rtl_uint32_t _task)
     &m_communicationOutsideProxy.base, &req, NULL, &res, NULL);
   if (code == NK_EOK) {
     std::cerr << connections::CCU << " -> " << connections::Communication
-              << ": StartAt()" << std::endl;
+              << ": StartedAt()" << std::endl;
 
   } else {
     std::cerr << connections::CCU << " -> " << connections::Communication
-              << ": StartAt() - FAILED" << std::endl;
+              << ": StartedAt() - FAILED" << std::endl;
   }
   // res->result 0=false if communication -> fps is failed
   return code == NK_EOK;
@@ -224,11 +224,11 @@ AppConnector::StopActionExtinguishing()
     &m_extinguishingActionsProxy.base, &req, NULL, &res, NULL);
   if (code == NK_EOK) {
     std::cerr << connections::CCU << " -> " << connections::Extinguishing
-              << ": StopActionAt()" << std::endl;
+              << ": StopAction()" << std::endl;
 
   } else {
     std::cerr << connections::CCU << " -> " << connections::Extinguishing
-              << ": StopActionAt() - FAILED" << std::endl;
+              << ": StopAction() - FAILED" << std::endl;
   }
   return code == NK_EOK;
 }
