@@ -21,7 +21,7 @@ ActionInProgressImpl(
   __rtl_unused nk_arena* res_arena)
 {
   SituationActionsHandlerImpl* impl = (SituationActionsHandlerImpl*)self;
-  // res->actions = impl->handler->Actions();
+  res->result = impl->handler->Actions();
   return NK_EOK;
 }
 
@@ -44,5 +44,5 @@ SituationActionsHandler::CreateImpl()
 rtl_uint32_t
 SituationActionsHandler::Actions()
 {
-  return 123;
+  return 1;
 }
