@@ -2,6 +2,8 @@
 
 namespace connections {
 
+constexpr const char* FPSHost = "192.168.1.77";
+
 constexpr const char* Aggregation = "aggregation";
 constexpr const char* AggregationService = "AggregationCoordinates.coordinates";
 
