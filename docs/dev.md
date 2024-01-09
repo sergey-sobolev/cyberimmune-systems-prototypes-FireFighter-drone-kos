@@ -379,7 +379,7 @@ public ActionInProgress:
 - Two green led lamps (FYL-5013GD)
 - Two 91 Ohm resistors (EK-R24 0.25W)
 - Pins 20 (ground), 22 (GPIO 25)
-- Pins 34 (ground), 36 - (GPIO 16)
+- Pins 34 (ground), 36 (GPIO 16)
 
 ## Dev Plan log:
 Day 1 Dec 14
@@ -453,4 +453,9 @@ Day 18 Jan 07
 - [x] improve logic
 - [x] communication host into resources/include/connections.h
 
-- [ ] add GPIO logic with leds
+Day 19 Jan 08
+- [x] add GPIO logic with leds
+
+Day 20 Jan 09
+- [x] GPIO logic tested
+- [x] Overall logic tested
