@@ -453,4 +453,9 @@ Day 18 Jan 07
 - [x] improve logic
 - [x] communication host into resources/include/connections.h
 
-- [ ] add GPIO logic with leds
+Day 19 Jan 08
+- [x] add GPIO logic with leds
+
+Day 20 Jan 09
+- [x] GPIO logic tested
+- [x] Overall logic tested
