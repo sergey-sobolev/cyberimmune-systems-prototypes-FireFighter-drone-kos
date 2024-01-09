@@ -379,7 +379,7 @@ public ActionInProgress:
 - Two green led lamps (FYL-5013GD)
 - Two 91 Ohm resistors (EK-R24 0.25W)
 - Pins 20 (ground), 22 (GPIO 25)
-- Pins 34 (ground), 36 - (GPIO 16)
+- Pins 34 (ground), 36 (GPIO 16)
 
 ## Dev Plan log:
 Day 1 Dec 14
