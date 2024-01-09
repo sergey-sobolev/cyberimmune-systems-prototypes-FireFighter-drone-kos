@@ -1,0 +1,6 @@
+entity ffd.EAIC
+
+components
+{
+    EAICActions: ffd.EAICActions
+}

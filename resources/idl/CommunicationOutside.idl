@@ -1,0 +1,6 @@
+package ffd.CommunicationOutside
+
+interface
+{
+    StartedAt(in UInt32 task, out UInt32 result);
+}

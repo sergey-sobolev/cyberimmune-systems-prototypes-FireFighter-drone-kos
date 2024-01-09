@@ -1,0 +1,6 @@
+entity ffd.Situation
+
+components
+{
+    SituationActions: ffd.SituationActions
+}

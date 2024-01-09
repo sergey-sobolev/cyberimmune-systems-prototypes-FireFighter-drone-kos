@@ -1,0 +1,6 @@
+entity ffd.FMAC
+
+components
+{
+    FMACActions: ffd.FMACActions
+}

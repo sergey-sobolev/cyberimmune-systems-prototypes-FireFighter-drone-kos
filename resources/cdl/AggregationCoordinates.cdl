@@ -1,0 +1,5 @@
+component ffd.AggregationCoordinates
+
+endpoints {
+    coordinates: ffd.AggregationCoordinates
+}

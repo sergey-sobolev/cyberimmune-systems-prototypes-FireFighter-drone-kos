@@ -1,0 +1,6 @@
+package ffd.SituationActions
+
+interface
+{
+    ActionInProgress(out UInt32 result);
+}

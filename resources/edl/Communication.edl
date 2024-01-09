@@ -1,0 +1,6 @@
+entity ffd.Communication
+
+components
+{
+    CommunicationOutside: ffd.CommunicationOutside
+}

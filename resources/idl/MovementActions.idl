@@ -1,0 +1,6 @@
+package ffd.MovementActions
+
+interface
+{
+    MoveTo(in UInt32 task);
+}

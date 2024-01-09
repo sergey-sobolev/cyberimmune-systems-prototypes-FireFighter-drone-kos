@@ -1,0 +1,361 @@
+/* Including EDL files. */
+use EDL ffd.Aggregation
+use EDL ffd.CCU
+use EDL ffd.Communication
+use EDL ffd.Extinguishing
+use EDL ffd.EAIC
+use EDL ffd.FMAC
+use EDL ffd.Movement
+use EDL ffd.Navigation
+use EDL ffd.Situation
+use EDL ffd.KlogEntity
+use EDL ffd.KlogStorageEntity
+use EDL kl.VfsRamFs
+use EDL kl.VfsSdCardFs
+use EDL kl.VfsNet
+
+request src=ffd.KlogEntity dst=ffd.KlogStorageEntity interface=kl.KlogStorage method=write { grant () }
+response src=ffd.KlogStorageEntity dst=ffd.KlogEntity interface=kl.KlogStorage method=write { grant () }
+
+// Aggregation
+request src = ffd.Aggregation, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Aggregation
+{
+    grant()
+}
+
+request src = ffd.Aggregation, dst = ffd.Navigation
+{
+    grant()
+}
+
+response src = ffd.Navigation, dst = ffd.Aggregation
+{
+    grant()
+}
+
+// CCU
+
+request src = ffd.CCU, dst = kl.drivers.BSP
+{
+    grant()
+}
+
+response src = kl.drivers.BSP, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = kl.drivers.GPIO
+{
+    grant()
+}
+
+response src = kl.drivers.GPIO, dst = ffd.CCU
+{
+    grant()
+}
+
+
+request src = ffd.CCU, dst = ffd.Aggregation
+{
+    grant()
+}
+
+response src = ffd.Aggregation, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = ffd.Communication
+{
+    grant()
+}
+
+response src = ffd.Communication, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = ffd.Extinguishing
+{
+    grant()
+}
+
+response src = ffd.Extinguishing, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = ffd.Movement
+{
+    grant()
+}
+
+response src = ffd.Movement, dst = ffd.CCU
+{
+    grant()
+}
+
+request src = ffd.CCU, dst = ffd.Situation
+{
+    grant()
+}
+
+response src = ffd.Situation, dst = ffd.CCU
+{
+    grant()
+}
+
+// Communication
+
+request src = ffd.Communication, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = ffd.FMAC
+{
+    grant()
+}
+
+response src = ffd.FMAC, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsNet
+{
+    grant()
+}
+
+response src = kl.VfsNet, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+response src = kl.VfsRamFs, dst = ffd.Communication
+{
+    grant()
+}
+
+request src = ffd.Communication, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+response src = kl.VfsSdCardFs, dst = ffd.Communication
+{
+    grant()
+}
+
+// EAIC
+request src = ffd.EAIC, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.EAIC
+{
+    grant()
+}
+
+request src = ffd.EAIC, dst = ffd.Aggregation
+{
+    grant()
+}
+
+response src = ffd.Aggregation, dst = ffd.EAIC
+{
+    grant()
+}
+
+// Extinguishing
+
+request src = ffd.Extinguishing, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Extinguishing
+{
+    grant()
+}
+
+request src = ffd.Extinguishing, dst = ffd.EAIC
+{
+    grant()
+}
+
+response src = ffd.EAIC, dst = ffd.Extinguishing
+{
+    grant()
+}
+
+// FMAC
+
+request src = ffd.FMAC, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.FMAC
+{
+    grant()
+}
+
+request src = ffd.FMAC, dst = ffd.CCU
+{
+    grant()
+}
+
+response src = ffd.CCU, dst = ffd.FMAC
+{
+    grant()
+}
+
+request src = ffd.FMAC, dst = ffd.EAIC
+{
+    grant()
+}
+
+response src = ffd.EAIC, dst = ffd.FMAC
+{
+    grant()
+}
+
+// Movement
+
+request src = ffd.Movement, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Movement
+{
+    grant()
+}
+
+
+// Navigation
+request src = ffd.Navigation, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Navigation
+{
+    grant()
+}
+
+// Situation
+request src = ffd.Situation, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = ffd.Situation
+{
+    grant()
+}
+
+// kl.VfsRamFs
+request src = kl.VfsRamFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+// kl.VfsNet
+request src = kl.VfsNet, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsNet
+{
+    grant()
+}
+
+// kl.VfsRamFs
+request src = kl.VfsRamFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+// kl.VfsSdCardFs
+request src = kl.VfsSdCardFs, dst = kl.core.Core
+{
+    grant()
+}
+
+response src = kl.core.Core, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+// kl.rump.Dhcpcd
+request src = kl.rump.Dhcpcd, dst = kl.VfsNet
+{
+    grant()
+}
+
+response src = kl.VfsNet, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+request src = kl.rump.Dhcpcd, dst = kl.VfsSdCardFs
+{
+    grant()
+}
+
+response src = kl.VfsSdCardFs, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+request src = kl.rump.Dhcpcd, dst = kl.VfsRamFs
+{
+    grant()
+}
+
+response src = kl.VfsRamFs, dst = kl.rump.Dhcpcd
+{
+    grant()
+}
+
+

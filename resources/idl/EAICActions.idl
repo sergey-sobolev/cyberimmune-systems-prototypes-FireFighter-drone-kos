@@ -1,0 +1,8 @@
+package ffd.EAICActions
+
+interface
+{
+    StartActionAt(in UInt32 task);
+    ConfirmAction();
+    StopAction();
+}

@@ -1,0 +1,5 @@
+component ffd.CCUActions
+
+endpoints {
+    actions: ffd.CCUActions
+}

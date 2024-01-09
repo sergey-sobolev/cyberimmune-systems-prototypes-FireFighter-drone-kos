@@ -1,0 +1,5 @@
+component ffd.ExtinguishingActions
+
+endpoints {
+    actions: ffd.ExtinguishingActions
+}

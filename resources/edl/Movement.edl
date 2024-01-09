@@ -1,0 +1,6 @@
+entity ffd.Movement
+
+components
+{
+    MovementActions: ffd.MovementActions
+}

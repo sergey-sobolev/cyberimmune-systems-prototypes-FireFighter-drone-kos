@@ -1,0 +1,5 @@
+component ffd.SituationActions
+
+endpoints {
+    actions: ffd.SituationActions
+}
