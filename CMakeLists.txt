@@ -28,6 +28,17 @@ include_directories (${precompiled_vfs_INCLUDE})
 find_package (rump REQUIRED COMPONENTS DHCPCD_ENTITY)
 include_directories (${rump_INCLUDE})
 
+if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm|aarch64")
+    # This command will find the BSP package components
+    # (BSP_HW_ENTITY, BSP_QEMU_ENTITY and BSP_CLIENT_LIB)
+    find_package (bsp REQUIRED)
+    include_directories (${bsp_INCLUDE})
+endif ()
+
+# Add a package with the GPIO client library.
+find_package (gpio REQUIRED COMPONENTS CLIENT_LIB ENTITY)
+include_directories (${gpio_INCLUDE})
+
 option(ROOTFS_SDCARD "Use SD card to mount root filesystem" OFF)
 message(STATUS "Use SD card to mount root filesystem - ${ROOTFS_SDCARD}")
 

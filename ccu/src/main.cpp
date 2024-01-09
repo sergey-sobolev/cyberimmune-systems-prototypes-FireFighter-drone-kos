@@ -1,6 +1,7 @@
 #include "server.h"
 
 #include "app_connector.h"
+#include "gpio_connector.h"
 #include "ccu_actions.h"
 #include <chrono>
 #include <connections.h>
@@ -15,24 +16,40 @@ Run(AppConnectorPtr appCon)
 {
   using namespace std::chrono_literals;
 
+  auto gpioCon = std::make_shared<GPIOConnector>();
+
+  auto gpioInitialized = gpioCon->Init();
   while (1) {
     if (appCon->started) {
+      if (gpioInitialized) {
+          gpioCon->Enable16();
+      }
       // aggregation
       appCon->GetAggregation();
       // movement
       appCon->MoveToMovement(appCon->task);
+      if (gpioInitialized) {
+          gpioCon->Enable25();
+      }
       // extinguishing start
       appCon->StartActionExtinguishing();
       // situation
       appCon->ActionInProgressSituation();
       // extinguishing stop
       appCon->StopActionExtinguishing();
+      if (gpioInitialized) {
+          gpioCon->Disable25();
+      }
       // communication started
       appCon->StartedAtCommunication(appCon->task);
+      if (gpioInitialized) {
+          gpioCon->Disable16();
+      }
       appCon->started = false;
     }
     std::this_thread::sleep_for(10s);
   }
+  gpioCon->Close();
 }
 
 int

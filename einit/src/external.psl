@@ -39,6 +39,17 @@ response src = ffd.Navigation, dst = ffd.Aggregation
 }
 
 // CCU
+
+request src = ffd.CCU, dst = kl.drivers.BSP
+{
+    grant()
+}
+
+response src = kl.drivers.BSP, dst = ffd.CCU
+{
+    grant()
+}
+
 request src = ffd.CCU, dst = kl.core.Core
 {
     grant()
@@ -48,6 +59,17 @@ response src = kl.core.Core, dst = ffd.CCU
 {
     grant()
 }
+
+request src = ffd.CCU, dst = kl.drivers.GPIO
+{
+    grant()
+}
+
+response src = kl.drivers.GPIO, dst = ffd.CCU
+{
+    grant()
+}
+
 
 request src = ffd.CCU, dst = ffd.Aggregation
 {

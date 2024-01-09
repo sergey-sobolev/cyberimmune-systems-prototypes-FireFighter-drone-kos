@@ -43,6 +43,11 @@ execute src = Einit, dst = kl.rump.Dhcpcd
     grant()
 }
 
+execute src = Einit, dst = kl.drivers.BSP
+{
+    grant()
+}
+
 
 /**
  * Allows the Einit program to start the kl.drivers.GPIO program.

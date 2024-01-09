@@ -33,6 +33,12 @@ target_include_directories (
     CCU
     PRIVATE ${INCLUDE_DIR})
 
+if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm|aarch64")
+    target_link_libraries (CCU ${bsp_CLIENT_LIB})
+endif ()
+
+target_link_libraries (CCU ${gpio_CLIENT_LIB})
+
 target_link_libraries (
     CCU
     ${CMAKE_THREAD_LIBS_INIT})
